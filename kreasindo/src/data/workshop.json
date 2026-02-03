@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "Neon Box",
+    "description": "Neon Box membantu bisnis anda tampil lebih menonjol terutama pada malam hari melalui media promosi visual yang menarik, informatif, dan dirancang agar efektif menjangkau target pasar.",
+    "price": "Mulai dari Rp 1.800.000 / unit",
+    "image": "/produk/neonbox.png",
+    "route": "/neonbox",
+    "keywords": ["neonbox", "Neonbox", "NEONBOX", "neon", "Neon", "NEON", "box", "Box", "BOX", "reklame", "Reklame", "REKLAME"],
+    "category": "workshop",
+    "comingSoon": false
+  },
+  {
+    "id": 2,
+    "title": "Pemesanan Las",
+    "description": "Melayani pemesanan las untuk berbagai kebutuhan konstruksi seperti kontainer booth, teralis, pagar, dan kanopi dengan pengerjaan rapi, material berkualitas, serta hasil yang kuat dan tahan lama.",
+    "price": "Mulai dari Rp 300.000 / unit",
+    "image": "/produk/welding.png",
+    "route": "/las",
+    "keywords": ["las", "Las", "LAS", "kontainer booth", "Kontainer Booth", "KONTAINER BOOTH", "teralis", "tralis", "pagar", "kanopi", "partisi kaca", "ACP"],
+    "category": "workshop",
+    "comingSoon": false
+  },
+  {
+    "id": 3,
+    "title": "Huruf Timbul",
+    "description": "Huruf timbul merupakan media branding visual dengan desain tiga dimensi yang diproduksi secara presisi, menggunakan material berkualitas untuk hasil yang kuat, rapi, dan tahan lama.",
+    "price": "Mulai dari Rp 5.000 / cm",
+    "image": "/produk/huruftimbul.png",
+    "route": "/huruftimbul",
+    "keywords": ["huruf timbul", "Huruf Timbul", "HURUF TIMBUL"],
+    "category": "workshop",
+    "comingSoon": false
+  },
+  {
+    "id": 4,
+    "title": "Rambu-Rambu",
+    "description": "Rambu-rambu sebagai media informasi dan petunjuk yang dirancang jelas, mudah dibaca, dan sesuai standar penggunaan.",
+    "price": "Mulai dari Rp 240.000 / unit",
+    "image": "/produk/rambu.png",
+    "route": "/rambu",
+    "keywords": ["rambu", "Rambu", "RAMBU"],
+    "category": "workshop",
+    "comingSoon": false
+  },
+  {
+    "id": 5,
+    "title": "Plang",
+    "description": "Plang adalah representasi visual sebuah lokasi atau usaha, dibuat dengan material berkualitas dan desain yang dirancang agar tetap terlihat jelas dan profesional.",
+    "price": "Mulai dari Rp 400.000 / unit",
+    "image": "/produk/plang.png",
+    "route": "/plang",
+    "keywords": ["plang", "Plang", "PLANG"],
+    "category": "workshop",
+    "comingSoon": false
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Mesin Digital Printing Outdoor",
+    "image": "/mesin/mesin1.jpg",
+    "description": "Mesin cetak berukuran besar untuk kebutuhan media luar ruang seperti billboard, spanduk, baliho, dan banner dengan hasil warna tajam, tahan sinar matahari, serta tahan cuaca ekstrem."
+  },
+  {
+    "name": "Mesin Digital Printing Indoor",
+    "image": "/mesin/mesin2.jpg",
+    "description": "Digunakan untuk mencetak kebutuhan indoor seperti poster, stiker, roll banner, dan display promosi dengan resolusi tinggi dan detail warna yang presisi."
+  },
+  {
+    "name": "Mesin Laser CO2",
+    "image": "/mesin/mesin3.jpg",
+    "description": "Mesin pemotong dan grafir laser untuk material non-logam seperti akrilik, kayu, MDF, dan plastik dengan hasil potong rapi serta detail ukiran yang halus."
+  },
+  {
+    "name": "Mesin Fiber Marking",
+    "image": "/mesin/mesin4.jpg",
+    "description": "Mesin marking khusus logam untuk kebutuhan penandaan permanen seperti logo, serial number, dan barcode dengan hasil presisi tinggi dan tahan lama."
+  },
+  {
+    "name": "Mesin CNC Router",
+    "image": "/mesin/mesin5.jpg",
+    "description": "Mesin pemotong otomatis berbasis komputer untuk material kayu, akrilik, PVC, dan aluminium yang mendukung pengerjaan bentuk kompleks dengan akurasi tinggi."
+  },
+  {
+    "name": "Mesin Fotokopi Warna",
+    "image": "/mesin/mesin6.png",
+    "description": "Mesin cetak warna berkualitas tinggi untuk kebutuhan percetakan komersial seperti brosur, flyer, kartu nama, dan media promosi."
+  },
+  {
+    "name": "Mesin Cutting Stiker",
+    "image": "/mesin/mesin7.jpg",
+    "description": "Digunakan untuk memotong stiker dan vinyl sesuai desain dengan presisi tinggi untuk branding kendaraan dan signage."
+  },
+  {
+    "name": "Mesin Press Kaos",
+    "image": "/mesin/mesin8.jpg",
+    "description": "Mesin press panas untuk mencetak desain pada kaos dan tekstil dengan hasil warna kuat, awet, dan nyaman digunakan."
+  },
+  {
+    "name": "Mesin DTF",
+    "image": "/mesin/mesin9.jpg",
+    "description": "Mesin Direct to Film untuk mencetak desain ke media film sebelum dipindahkan ke kain dengan hasil fleksibel dan tahan lama."
+  },
+  {
+    "name": "Mesin Press Mug",
+    "image": "/mesin/mesin10.jpg",
+    "description": "Digunakan untuk mencetak desain pada mug dan media silinder lainnya dengan hasil cetak tajam dan awet."
+  },
+  {
+    "name": "Mesin Stempel Kilat",
+    "image": "/mesin/mesin11.jpg",
+    "description": "Digunakan untuk membuat stempel kilat (flash stamp) dengan proses cepat, hasil cetakan tajam, detail presisi, dan tinta yang merata. Cocok untuk produksi stempel berkualitas tinggi dengan daya tahan lama."
+  }
+]

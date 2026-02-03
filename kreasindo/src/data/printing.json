@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "title": "Spanduk dan Brosur",
+    "description": "Media promosi efektif untuk menjangkau audiens luas dengan cetakan warna tajam dan bahan yang tahan cuaca.",
+    "price": "Mulai dari Rp 40.000 / m²",
+    "image": "/produk/spanduk.png",
+    "route": "/spanduk",
+    "keywords": ["spanduk", "brosur", "Spanduk", "Brosur", "Spanduk dan Brosur", "spanduk dan brosur", "SPANDUK DAN BROSUR", "SPANDUK", "BROSUR", "Spanduk dan brosur"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 2,
+    "title": "Luster",
+    "description": "Cetak foto berkualitas tinggi dengan tekstur halus dan efek semi-gloss yang memberikan kesan mewah dan elegan.",
+    "price": "Mulai dari Rp 150.000 / m²",
+    "image": "/produk/luster.png",
+    "route": "/luster",
+    "keywords": ["luster", "Luster", "LUSTER", "kertas luster", "Kertas Luster", "KERTAS LUSTER", "kertas foto", "Kertas Foto", "KERTAS FOTO"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 3,
+    "title": "Stiker Meteran",
+    "description": "Solusi branding skala besar untuk kaca atau kendaraan (termasuk oneway vision) dengan ukuran custom sesuai kebutuhan.",
+    "price": "Mulai dari Rp 150.000 / m²",
+    "image": "/produk/stikeroneway.png",
+    "route": "/stiker-meteran",
+    "keywords": ["stiker meteran", "Stiker Meteran", "STIKER METERAN", "oneway", "Oneway", "ONEWAY", "stiker", "Stiker", "STIKER", "stiker oneway", "Stiker Oneway", "STIKER ONEWAY", "Stiker oneway"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 4,
+    "title": "Banner",
+    "description": "Display promosi praktis yang mudah dibawa dan dipasang, sangat cocok untuk event, seminar, atau di depan toko.",
+    "price": "Mulai dari Rp 185.000 / banner",
+    "image": "/produk/banner.png",
+    "route": "/banner",
+    "keywords": ["banner", "Banner", "BANNER", "x banner", "X Banner", "X BANNER", "y banner", "Y Banner", "Y BANNER", "x-banner", "X-Banner", "X-BANNER", "y-banner", "Y-Banner", "Y-BANNER"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 5,
+    "title": "Roll Banner",
+    "description": "Stand banner premium dengan mekanisme gulung yang ringkas, memberikan tampilan profesional untuk lobi atau pameran.",
+    "price": "Mulai dari Rp 400.000 / banner",
+    "image": "/produk/rollupbanner.png",
+    "route": "/roll-banner",
+    "keywords": ["roll banner", "Roll Banner", "ROLL BANNER", "banner", "Banner", "BANNER"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 6,
+    "title": "Kartu Nama",
+    "description": "Tingkatkan kesan profesionalisme Anda dengan kartu nama berkualitas yang mencerminkan identitas bisnis secara eksklusif.",
+    "price": "Mulai dari Rp 75.000 / 100 lembar",
+    "image": "/produk/kartunama.jpg",
+    "route": "/kartu-nama",
+    "keywords": ["kartu nama", "Kartu Nama", "KARTU NAMA", "nama", "Nama", "NAMA", "kartu", "Kartu", "KARTU", "namecard", "Namecard", "NAMECARD"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 7,
+    "title": "Nametag",
+    "description": "Tanda pengenal staf yang awet dan rapi, dirancang untuk memperkuat kredibilitas perusahaan di mata pelanggan.",
+    "price": "Mulai dari Rp 75.000 / nametag",
+    "image": "/produk/nametag.jpg",
+    "route": "/nametag",
+    "keywords": ["nametag", "Nametag", "NAMETAG", "nama", "Nama", "NAMA", "tag", "Tag", "TAG"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 8,
+    "title": "Stiker A3",
+    "description": "Label kemasan serbaguna (Bontak/Vinyl) dalam format A3, ideal untuk branding produk UMKM dengan hasil potong presisi.",
+    "price": "Mulai dari Rp 13.000 / lembar",
+    "image": "/produk/stikera3.png",
+    "route": "/stiker-a3",
+    "keywords": ["stiker a3", "Stiker A3", "STIKER A3", "a3", "A3", "A3 Stiker", "stiker a3", "bontak", "Bontak", "BONTAX", "vinil", "Vinil", "VINIL", "stiker bontak", "Stiker Bontak", "STIKER BONTAK", "stiker vinil", "Stiker Vinil", "STIKER VINIL"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 9,
+    "title": "Art Paper",
+    "description": "Kertas berkualitas dengan permukaan licin dan mengkilap, pilihan terbaik untuk cetak menu, sertifikat, atau poster.",
+    "price": "Mulai dari Rp 10.000 / lembar",
+    "image": "/produk/artpaper.jpg",
+    "route": "/art-paper",
+    "keywords": ["art paper", "Art Paper", "ART PAPER", "kertas art", "Kertas Art", "KERTAS ART"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 10,
+    "title": "Stempel",
+    "description": "Alat legalitas administrasi yang praktis dengan hasil cap yang tajam, tersedia dalam berbagai bentuk dan ukuran.",
+    "price": "Mulai dari Rp 100.000 / pcs",
+    "image": "/produk/stempel.png",
+    "route": "/stempel",
+    "keywords": ["stempel", "Stempel", "STEMPEL", "stempel karet", "Stempel Karet", "STEMPEL KARET"],
+    "category": "printing",
+    "comingSoon": false
+  },
+  {
+    "id": 11,
+    "title": "Cutting Stiker",
+    "description": "Stiker potong presisi untuk logo kendaraan atau dekorasi sunblast kaca yang estetis untuk privasi ruangan.",
+    "price": "Mulai dari Rp 75 / cm",
+    "image": "/produk/cuttingstiker.png",
+    "route": "/cutting-stiker",
+    "keywords": ["cutting stiker", "Cutting Stiker", "CUTTING STIKER", "stiker", "Stiker", "STIKER", "sunblast", "Sunblast", "SUNBLAST", "nomor lambung", "Nomor Lambung", "NOMOR LAMBUNG"],
+    "category": "printing",
+    "comingSoon": false
+  }
+]

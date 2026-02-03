@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Mug",
+    "description": "Mug custom premium dengan cetakan berkualitas tinggi, tahan lama dan cocok untuk hadiah atau keperluan kantor.",
+    "price": "Mulai dari Rp 35.000 / pcs",
+    "image": "/produk/mug.png",
+    "route": "/mug",
+    "keywords": ["mug", "Mug", "MUG", "kopi", "Kopi", "KOPI", "gelas", "Gelas", "GELEAS", "cangkir", "Cangkir", "CANGKIR"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 2,
+    "title": "Tumbler",
+    "description": "Tumbler premium dengan desain custom sesukamu. Cetakan tajam, anti-pudar, dan material tahan lama. Pilihan terbaik untuk kado spesial atau souvenir kantor yang stylish",
+    "price": "Mulai dari Rp 67.000 / pcs",
+    "image": "/produk/tumbler.png",
+    "route": "/tumbler",
+    "keywords": ["tumbler", "Tumbler", "TUMBLER", "botol", "Botol", "BOTOL"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 3,
+    "title": "Plakat",
+    "description": "Simbol apresiasi eksklusif dengan desain estetik. Material premium, hasil presisi, dan kemasan mewah. Cara terbaik untuk mengabadikan prestasi yang tak terlupakan.",
+    "price": "Mulai dari Rp 85.000 / pcs",
+    "image": "/produk/plakat.png",
+    "route": "/plakat",
+    "keywords": ["plakat", "Plakat", "PLAKAT"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 4,
+    "title": "Aksesoris",
+    "description": "Lengkapi gayamu dengan set aksesoris custom premium. Topi, lanyard, dan keychain dengan desain unik untuk identitas yang lebih berkelas.",
+    "price": "Mulai dari Rp 15.000 / pcs",
+    "image": "/produk/aksesoris.png",
+    "route": "/aksesoris",
+    "keywords": ["aksesoris", "Aksesoris", "AKSESORIS", "topi", "Topi", "TOPI", "lanyard", "Lanyard", "LANYARD", "gantungan kunci", "Gantungan Kunci", "GANTUNGAN KUNCI", "keychain", "Keychain", "KEYCHAIN"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 5,
+    "title": "Display QRIS",
+    "description": "Display QRIS untuk menjaga dan menampilkan QRIS fisik dengan desain premium.",
+    "price": "Mulai dari Rp 75.000 / pcs",
+    "image": "/produk/displayqris.png",
+    "route": "/displayqris",
+    "keywords": ["display", "Display", "DISPLAY", "qris", "QRIS"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 6,
+    "title": "Nomor Rumah",
+    "description": "Nomor rumah berkualitas tinggi untuk identifikasi rumah Anda dengan desain premium.",
+    "price": "Mulai dari Rp 115.000 / pcs",
+    "image": "/produk/nomorrumah.png",
+    "route": "/nomorrumah",
+    "keywords": ["nomor", "Nomor", "NOMOR", "rumah", "Rumah", "RUMAH"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 7,
+    "title": "Piala & Mendali",
+    "description": "Piala dan mendali custom premium dengan desain dan percetakan berkualitas tinggi, tahan lama dan cocok untuk penghargaan atau keperluan lomba.",
+    "price": "Mulai dari Rp 35.000 / pcs",
+    "image": "/produk/pialamendali.png",
+    "route": "/pialamendali",
+    "keywords": ["piala", "Piala", "PIALA", "mendali", "Mendali", "MENDALI"],
+    "category": "souvenir",
+    "comingSoon": false
+  },
+  {
+    "id": 8,
+    "title": "Prasasti",
+    "description": "Abadikan momen bersejarah Anda dengan prasasti granit dan akrilik berkualitas tinggi yang elegan, tahan lama, dan terukir presisi.",
+    "price": "Mulai dari Rp 300.000 / pcs",
+    "image": "/produk/prasasti.png",
+    "route": "/prasasti",
+    "keywords": ["prasasti", "Prasasti", "PRASASTI", "granit", "Granit", "GRANIT", "akrilik", "Akrilik", "AKRILIK"],
+    "category": "souvenir",
+    "comingSoon": false
+  }
+]

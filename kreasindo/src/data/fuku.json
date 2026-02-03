@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "title": "Kaos",
+    "description": "Tingkatkan identitas tim atau komunitas Anda dengan kaos custom berkualitas dengan bahan knito yang mencerminkan kepribadian dan nilai bersama secara eksklusif.",
+    "price": "Mulai dari Rp 40.000 / pcs",
+    "image": "/produk/kaos.png",
+    "route": "/kaos",
+    "keywords": ["kaos", "Kaos", "KAOS", "t-shirt", "T-Shirt", "T-SHIRT"],
+    "category": "fuku",
+    "comingSoon": false
+  },
+  {
+    "id": 2,
+    "title": "Jersey",
+    "description": "Tersedia jersey berkerah, O-neck, dan V-neck dengan desain modern, bahan nyaman, dan tampilan yang menunjang identitas tim atau komunitas.",
+    "price": "Mulai dari Rp 95.000 / pcs",
+    "image": "/produk/jersey.png",
+    "route": "/jersey",
+    "keywords": ["jersey", "Jersey", "JERSEY"],
+    "category": "fuku",
+    "comingSoon": false
+  },
+  {
+    "id": 3,
+    "title": "Kaos Polo",
+    "description": "Kaos polo dengan tampilan rapi dan bahan nyaman, cocok untuk kebutuhan kerja, event, maupun seragam usaha.",
+    "price": "Mulai dari Rp 95.000 / pcs",
+    "image": "/produk/polo.png",
+    "route": "/polo",
+    "keywords": ["polo", "Polo", "POLO"],
+    "category": "fuku",
+    "comingSoon": false
+  }
+]
