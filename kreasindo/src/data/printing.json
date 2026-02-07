@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "title": "Spanduk dan Brosur",
+    "title": "Spanduk",
     "description": "Media promosi efektif untuk menjangkau audiens luas dengan cetakan warna tajam dan bahan yang tahan cuaca.",
     "price": "Mulai dari Rp 40.000 / m²",
     "image": "/produk/spanduk.png",
     "route": "/spanduk",
-    "keywords": ["spanduk", "brosur", "Spanduk", "Brosur", "Spanduk dan Brosur", "spanduk dan brosur", "SPANDUK DAN BROSUR", "SPANDUK", "BROSUR", "Spanduk dan brosur"],
+    "keywords": ["spanduk", "Spanduk"],
     "category": "printing",
     "comingSoon": false
   },

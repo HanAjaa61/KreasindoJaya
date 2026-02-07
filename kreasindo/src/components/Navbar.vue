@@ -3,7 +3,7 @@
     class="navbar"
     :class="[
       { 'navbar-red': isFukuActive },
-      { 'hide-navbar': isFukuCarouselOpen || isFooterVisible || isPaymentVisible}
+      { 'hide-navbar': (isFukuCarouselOpen || isFooterVisible || isPaymentVisible) && hasScrolled}
     ]"
   >
     <div class="navbar-container">
@@ -75,6 +75,7 @@ const isFooterVisible = ref(false)
 const isFukuCarouselOpen = ref(false)
 const isPaymentVisible = ref(false)
 const isFukuActive = ref(false)
+const hasScrolled = ref(false)
 
 const route = useRoute()
 const router = useRouter()
@@ -124,6 +125,13 @@ const handleMobileAboutClick = async (e) => {
 
 const handleScroll = () => {
   const isMobile = window.innerWidth <= 768
+  const scrollY = window.scrollY || window.pageYOffset
+  
+  if (scrollY > 50) {
+    hasScrolled.value = true
+  } else {
+    hasScrolled.value = false
+  }
   
   if (route.path === '/') {
     const fuku = document.getElementById('fuku')
@@ -177,6 +185,7 @@ const handleScroll = () => {
 
 watch(() => route.path, () => {
   closeMobileMenu()
+  hasScrolled.value = false
   handleScroll()
 }, { immediate: true })
 
@@ -430,6 +439,15 @@ onUnmounted(() => {
 
   .hamburger {
     display: flex;
+  }
+
+  .navbar-container {
+    padding: 0.8rem 1rem;
+  }
+
+  .logo-img {
+    height: 40px;
+    width: 40px;
   }
 }
 </style>

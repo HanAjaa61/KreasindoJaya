@@ -8,7 +8,7 @@
           </svg>
           Kembali
         </button>
-        <h1 class="title">Pemesanan Spanduk dan Brosur</h1>
+        <h1 class="title">Pemesanan Spanduk</h1>
         <p class="subtitle">Pilih spanduk berkualitas sesuai kebutuhan Anda</p>
       </div>
 
