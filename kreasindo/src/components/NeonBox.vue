@@ -113,24 +113,12 @@
                 :class="{ 'selected': order.material === key }"
                 @click="selectMaterial(index, key)"
               >
-                <div class="material-icon">
-                  <svg v-if="material.shape === 'square'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <path d="M3 9h18M9 21V9"></path>
-                  </svg>
-                  <svg v-else-if="material.shape === 'circle'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 2v20M2 12h20"></path>
-                  </svg>
-                  <svg v-else width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v6m0 6v6M23 12h-6m-6 0H1"></path>
-                    <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24M19.07 4.93l-4.24 4.24m-5.66 5.66-4.24 4.24"></path>
-                  </svg>
+                <div v-if="key !== 'custom'" class="material-icon">
+                  <img :src="material.image" :alt="material.name" class="material-img" />
                 </div>
                 <div class="material-info">
                   <h4 class="material-name">{{ material.name }}</h4>
-                  <p v-if="material.price > 0" class="material-price">{{ formatCurrency(material.price) }} / piece</p>
+                  <p v-if="material.price > 0" class="material-price">{{ formatCurrency(material.price) }} / unit</p>
                   <p v-else class="material-custom-note">Hubungi untuk harga</p>
                 </div>
                 <div class="check-icon" v-if="order.material === key">
@@ -184,6 +172,7 @@
             
             <div class="addition-section">
               <h4 class="addition-title">Ukuran Tiang</h4>
+              <p class="helper-text addition-helper">Klik pilihan yang sama untuk membatalkan pilihan</p>
               <div class="addition-grid">
                 <div 
                   v-for="(pole, key) in poleOptions" 
@@ -207,13 +196,28 @@
 
             <div class="addition-section">
               <h4 class="addition-title">Jasa Pemasangan Tiang</h4>
-              <div class="addition-grid">
+              <div v-if="!order.pole" class="installation-locked">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Pilih ukuran tiang terlebih dahulu untuk menentukan jasa pemasangan</span>
+              </div>
+              <div v-else class="installation-synced-info">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Jasa pemasangan disesuaikan otomatis dengan ukuran tiang yang dipilih</span>
+              </div>
+              <div class="addition-grid" :class="{ 'grid-locked': !order.pole }">
                 <div 
                   v-for="(installation, key) in installationOptions" 
                   :key="key"
                   class="addition-card"
-                  :class="{ 'selected': order.installation === key }"
-                  @click="selectInstallation(index, key)"
+                  :class="{ 
+                    'selected': order.installation === key,
+                    'locked': !order.pole || !isSamePoleSize(order.pole, key)
+                  }"
                 >
                   <div class="addition-info">
                     <h5 class="addition-name">{{ installation.name }}</h5>
@@ -224,8 +228,15 @@
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   </div>
+                  <div class="lock-icon-small" v-else-if="!order.pole || !isSamePoleSize(order.pole, key)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
+              <p v-if="order.pole" class="helper-text addition-helper">Klik pilihan yang sama untuk membatalkan pilihan pemasangan</p>
             </div>
           </div>
 
@@ -449,56 +460,61 @@ export default {
       showErrorDialog: false,
       errorTitle: '',
       errorMessage: '',
+      poleToInstallationMap: {
+        pole25: 'install25',
+        pole30: 'install30',
+        pole40: 'install40'
+      },
       materialOptions: {
         neon60x90print: {
           name: 'Backlight Printing 60x90 cm',
           price: 1800000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neon60x90back: {
           name: 'Backlight Cutting Stiker 60x90 cm',
           price: 2350000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neon60x90akr: {
           name: 'Akrilik Cutting Stiker 60x90 cm',
           price: 2850000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neon125x80print: {
           name: 'Backlight Printing 125x80 cm',
           price: 2300000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neon125x80back: {
           name: 'Backlight Cutting Stiker 125x80 cm',
           price: 2800000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neon125x80akr: {
           name: 'Akrilik Cutting Stiker 125x80 cm',
           price: 3300000,
-          shape: 'square'
+          image: '/icons/neonkotak.png'
         },
         neonD60akr: {
           name: 'Akrilik Cutting Stiker Ø 60 cm',
           price: 2500000,
-          shape: 'circle'
+          image: '/icons/neonbulat.png'
         },
         neonD80akr: {
           name: 'Akrilik Cutting Stiker Ø 80 cm',
           price: 3000000,
-          shape: 'circle'
+          image: '/icons/neonbulat.png'
         },
         neonD100akr: {
           name: 'Akrilik Cutting Stiker Ø 100 cm',
           price: 3500000,
-          shape: 'circle'
+          image: '/icons/neonbulat.png'
         },
         custom: {
           name: 'Neon Box Ukuran Custom',
           price: 0,
-          shape: 'custom'
+          image: null
         }
       },
       poleOptions: {
@@ -517,15 +533,15 @@ export default {
       },
       installationOptions: {
         install25: {
-          name: 'Tiang 2.5 inch Setengah',
+          name: 'Tiang 2.5 inch',
           price: 350000
         },
         install30: {
-          name: 'Tiang 3 inch Setengah',
+          name: 'Tiang 3 inch',
           price: 400000
         },
         install40: {
-          name: 'Tiang 4 inch Setengah',
+          name: 'Tiang 4 inch',
           price: 500000
         }
       }
@@ -598,18 +614,26 @@ export default {
     selectPole(index, key) {
       if (this.orders[index].pole === key) {
         this.orders[index].pole = null;
+        this.orders[index].installation = null;
       } else {
         this.orders[index].pole = key;
+        this.orders[index].installation = this.poleToInstallationMap[key] || null;
       }
       this.calculatePrice(index);
     },
     selectInstallation(index, key) {
+      if (!this.orders[index].pole) return;
+      const linkedInstallation = this.poleToInstallationMap[this.orders[index].pole];
+      if (key !== linkedInstallation) return;
       if (this.orders[index].installation === key) {
         this.orders[index].installation = null;
       } else {
         this.orders[index].installation = key;
       }
       this.calculatePrice(index);
+    },
+    isSamePoleSize(poleKey, installKey) {
+      return this.poleToInstallationMap[poleKey] === installKey;
     },
     addOrder() {
       this.orders.push({
@@ -992,6 +1016,14 @@ body {
   line-height: 1.5;
 }
 
+.addition-helper {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
 .address-note {
   margin-top: 12px;
   font-size: 0.9rem;
@@ -1043,28 +1075,27 @@ body {
 }
 
 .material-icon {
-  width: 52px;
-  height: 52px;
-  background: rgba(102, 126, 234, 0.12);
+  width: 64px;
+  height: 64px;
+  background: rgba(102, 126, 234, 0.08);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .material-card.selected .material-icon {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.material-icon svg {
-  color: #667eea;
-  width: 26px;
-  height: 26px;
-}
-
-.material-card.selected .material-icon svg {
-  color: #fff;
+.material-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
 }
 
 .material-info {
@@ -1221,7 +1252,7 @@ body {
   font-size: 1.05rem;
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   letter-spacing: 0.2px;
 }
 
@@ -1229,6 +1260,49 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px;
+}
+
+.grid-locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.installation-locked {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f3f4f6;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.installation-locked svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.installation-synced-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 2px solid #6ee7b7;
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  color: #065f46;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.installation-synced-info svg {
+  color: #10b981;
+  flex-shrink: 0;
 }
 
 .addition-card {
@@ -1241,7 +1315,7 @@ body {
   transition: all 0.3s ease;
 }
 
-.addition-card:hover {
+.addition-card:hover:not(.locked) {
   border-color: #10b981;
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.12);
   transform: translateY(-2px);
@@ -1252,6 +1326,13 @@ body {
   border-color: #10b981;
   box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
   transform: translateY(-2px);
+}
+
+.addition-card.locked {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .addition-info {
@@ -1303,6 +1384,23 @@ body {
   color: #10b981;
   width: 15px;
   height: 15px;
+}
+
+.lock-icon-small {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  background: #e5e7eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lock-icon-small svg {
+  color: #9ca3af;
 }
 
 .price-summary {
@@ -1959,12 +2057,8 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -2012,27 +2106,15 @@ body {
 }
 
 @keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-6px);
-  }
-  75% {
-    transform: translateX(6px);
-  }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
 }
 
 @keyframes checkPop {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
 @media (max-width: 768px) {
@@ -2124,13 +2206,8 @@ body {
   }
 
   .material-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .material-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 58px;
+    height: 58px;
   }
 
   .material-name {
@@ -2161,7 +2238,7 @@ body {
 
   .addition-title {
     font-size: 1rem;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
   }
 
   .addition-grid {
@@ -2179,6 +2256,12 @@ body {
 
   .addition-price {
     font-size: 0.92rem;
+  }
+
+  .installation-locked,
+  .installation-synced-info {
+    font-size: 0.85rem;
+    padding: 12px 16px;
   }
 
   .price-summary {
@@ -2499,13 +2582,8 @@ body {
   }
 
   .material-icon {
-    width: 46px;
-    height: 46px;
-  }
-
-  .material-icon svg {
-    width: 23px;
-    height: 23px;
+    width: 54px;
+    height: 54px;
   }
 
   .material-name {
@@ -2555,7 +2633,12 @@ body {
 
   .addition-title {
     font-size: 0.98rem;
-    margin-bottom: 11px;
+    margin-bottom: 5px;
+  }
+
+  .addition-helper {
+    font-size: 0.78rem;
+    margin-bottom: 10px;
   }
 
   .addition-grid {
@@ -2575,6 +2658,13 @@ body {
     font-size: 0.9rem;
   }
 
+  .installation-locked,
+  .installation-synced-info {
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
   .check-icon-small {
     width: 25px;
     height: 25px;
@@ -2585,6 +2675,13 @@ body {
   .check-icon-small svg {
     width: 14px;
     height: 14px;
+  }
+
+  .lock-icon-small {
+    width: 24px;
+    height: 24px;
+    top: 9px;
+    right: 9px;
   }
 
   .price-summary {
@@ -2678,141 +2775,173 @@ body {
   .btn svg {
     width: 17px;
     height: 17px;
-    }
-.footer-spacer {
-height: 90px;
-}
-.dialog-overlay {
-padding: 20px;
-}
-.dialog-box {
-padding: 32px 22px;
-}
-.dialog-icon {
-width: 64px;
-height: 64px;
-margin-bottom: 18px;
-}
-.dialog-icon svg {
-width: 32px;
-height: 32px;
-}
-.dialog-title {
-font-size: 1.4rem;
-margin-bottom: 13px;
-}
-.dialog-message {
-font-size: 0.92rem;
-margin-bottom: 26px;
-}
-.dialog-btn {
-padding: 12px 22px;
-font-size: 0.92rem;
-}
-.dialog-btn svg {
-width: 17px;
-height: 17px;
-}
-.screenshot-guide {
-border-radius: 14px;
-}
-.guide-header {
-padding: 12px 16px;
-gap: 8px;
-}
-.guide-title {
-font-size: 0.9rem;
-line-height: 1.4;
-}
-.guide-content {
-padding: 16px;
-}
-.guide-warning {
-font-size: 0.8rem;
-padding: 12px;
-border-radius: 10px;
-}
-.example-label {
-font-size: 0.8rem;
-gap: 5px;
-}
-.example-label svg {
-width: 16px;
-height: 16px;
-}
-.example-badge {
-font-size: 0.65rem;
-padding: 4px 10px;
-top: -5px;
-right: -5px;
-letter-spacing: 0.3px;
-}
-.example-image {
-padding: 10px;
-}
-.example-image img {
-max-width: 100%;
-}
-.example-caption {
-font-size: 0.75rem;
-padding: 8px 12px;
-gap: 5px;
-}
-.example-caption svg {
-width: 14px;
-height: 14px;
-}
-.guide-steps {
-padding: 14px;
-border-radius: 10px;
-}
-.steps-title {
-font-size: 0.875rem;
-gap: 6px;
-margin-bottom: 14px;
-}
-.steps-title svg {
-width: 16px;
-height: 16px;
-}
-.steps-list > li {
-padding: 10px;
-gap: 10px;
-margin-bottom: 10px;
-border-radius: 8px;
-}
-.step-number {
-width: 26px;
-height: 26px;
-min-width: 26px;
-font-size: 0.8rem;
-}
-.step-text {
-font-size: 0.8rem;
-line-height: 1.6;
-padding-top: 2px;
-}
-.highlight-step {
-padding: 10px !important;
-}
-.sub-steps {
-margin-top: 10px;
-padding-left: 14px;
-}
-.sub-steps li {
-font-size: 0.75rem;
-padding-left: 18px;
-margin-bottom: 6px;
-line-height: 1.5;
-}
-.guide-footer {
-padding: 10px 14px;
-gap: 8px;
-border-radius: 8px;
-}
-.guide-footer span {
-font-size: 0.75rem;
-line-height: 1.4;
+  }
+
+  .footer-spacer {
+    height: 90px;
+  }
+
+  .dialog-overlay {
+    padding: 20px;
+  }
+
+  .dialog-box {
+    padding: 32px 22px;
+  }
+
+  .dialog-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
+  }
+
+  .dialog-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dialog-title {
+    font-size: 1.4rem;
+    margin-bottom: 13px;
+  }
+
+  .dialog-message {
+    font-size: 0.92rem;
+    margin-bottom: 26px;
+  }
+
+  .dialog-btn {
+    padding: 12px 22px;
+    font-size: 0.92rem;
+  }
+
+  .dialog-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .screenshot-guide {
+    border-radius: 14px;
+  }
+
+  .guide-header {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .guide-title {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .guide-content {
+    padding: 16px;
+  }
+
+  .guide-warning {
+    font-size: 0.8rem;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .example-label {
+    font-size: 0.8rem;
+    gap: 5px;
+  }
+
+  .example-label svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .example-badge {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    top: -5px;
+    right: -5px;
+    letter-spacing: 0.3px;
+  }
+
+  .example-image {
+    padding: 10px;
+  }
+
+  .example-image img {
+    max-width: 100%;
+  }
+
+  .example-caption {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+    gap: 5px;
+  }
+
+  .example-caption svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .guide-steps {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .steps-title {
+    font-size: 0.875rem;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .steps-title svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .steps-list > li {
+    padding: 10px;
+    gap: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .step-number {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    font-size: 0.8rem;
+  }
+
+  .step-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    padding-top: 2px;
+  }
+
+  .highlight-step {
+    padding: 10px !important;
+  }
+
+  .sub-steps {
+    margin-top: 10px;
+    padding-left: 14px;
+  }
+
+  .sub-steps li {
+    font-size: 0.75rem;
+    padding-left: 18px;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+
+  .guide-footer {
+    padding: 10px 14px;
+    gap: 8px;
+    border-radius: 8px;
+  }
+
+  .guide-footer span {
+    font-size: 0.75rem;
+    line-height: 1.4;
   }
 }
 </style>

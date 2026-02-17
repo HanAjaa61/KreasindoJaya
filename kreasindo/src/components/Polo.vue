@@ -33,9 +33,9 @@
           <div class="form-row">
             <div class="form-group">
               <label>Nama Lengkap <span class="required">*</span></label>
-              <input 
-                v-model="customer.name" 
-                type="text" 
+              <input
+                v-model="customer.name"
+                type="text"
                 placeholder="Masukkan nama lengkap Anda"
                 class="input-field"
               />
@@ -44,9 +44,9 @@
           <div class="form-row">
             <div class="form-group">
               <label>Nomor Telepon <span class="required">*</span></label>
-              <input 
-                v-model="customer.phone" 
-                type="tel" 
+              <input
+                v-model="customer.phone"
+                type="tel"
                 placeholder="08xxxxxxxxxx (maks 13 digit)"
                 class="input-field"
                 :class="{ 'error': phoneError }"
@@ -60,8 +60,8 @@
           <div class="form-row">
             <div class="form-group">
               <label>Alamat Lengkap <span class="required">*</span></label>
-              <textarea 
-                v-model="customer.address" 
+              <textarea
+                v-model="customer.address"
                 placeholder="Masukkan alamat lengkap untuk pengiriman"
                 class="input-field textarea"
                 rows="4"
@@ -93,9 +93,9 @@
             </svg>
             <h2 class="card-title">Pesanan #{{ index + 1 }}</h2>
           </div>
-          <button 
-            v-if="orders.length > 1" 
-            @click="removeOrder(index)" 
+          <button
+            v-if="orders.length > 1"
+            @click="removeOrder(index)"
             class="remove-btn"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -109,18 +109,15 @@
           <div class="form-group">
             <label class="main-label">Pilih Jenis Produksi <span class="required">*</span></label>
             <div class="production-grid">
-              <div 
-                v-for="(production, key) in productionOptions" 
+              <div
+                v-for="(production, key) in productionOptions"
                 :key="key"
                 class="production-card"
                 :class="{ 'selected': order.production === key }"
                 @click="selectProduction(index, key)"
               >
                 <div class="production-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path v-if="key === 'custom'" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                    <path v-else d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  </svg>
+                  <img :src="production.image" :alt="production.name" class="card-img" />
                 </div>
                 <div class="production-info">
                   <h4 class="production-name">{{ production.name }}</h4>
@@ -138,18 +135,15 @@
           <div class="form-group" v-if="order.production">
             <label class="main-label">Pilih Jenis Kaos Polo <span class="required">*</span></label>
             <div class="category-grid">
-              <div 
-                v-for="(category, key) in categoryOptions" 
+              <div
+                v-for="(category, key) in categoryOptions"
                 :key="key"
                 class="category-card"
                 :class="{ 'selected': order.category === key }"
                 @click="selectCategory(index, key)"
               >
                 <div class="category-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                  </svg>
+                  <img :src="category.image" :alt="category.name" class="card-img" />
                 </div>
                 <div class="category-info">
                   <h4 class="category-name">{{ category.name }}</h4>
@@ -166,17 +160,15 @@
           <div class="form-group" v-if="order.category">
             <label class="main-label">Pilih Tipe Kaos Polo <span class="required">*</span></label>
             <div class="type-grid">
-              <div 
-                v-for="(type, key) in typeOptions" 
+              <div
+                v-for="(type, key) in typeOptions"
                 :key="key"
                 class="type-card"
                 :class="{ 'selected': order.type === key }"
                 @click="selectType(index, key)"
               >
                 <div class="type-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"></path>
-                  </svg>
+                  <img :src="getTypeImage(key, order.category)" :alt="type.name" class="card-img" />
                 </div>
                 <div class="type-info">
                   <h4 class="type-name">{{ type.name }}</h4>
@@ -193,8 +185,8 @@
           <div class="form-group" v-if="order.type">
             <label class="main-label">Pilih Ukuran <span class="required">*</span></label>
             <div class="size-grid">
-              <div 
-                v-for="(sizeOption, key) in getSizeOptions(order.category, order.type)" 
+              <div
+                v-for="(sizeOption, key) in getSizeOptions(order.category, order.type)"
                 :key="key"
                 class="size-card"
                 :class="{ 'selected': order.size === key }"
@@ -216,14 +208,14 @@
                 Panduan Ukuran {{ categoryOptions[order.category].name }}
               </h3>
               <div class="size-guide-image">
-                <img 
-                  v-if="order.category === 'dewasa'" 
-                  src="/ukuran/polodewasa.png" 
+                <img
+                  v-if="order.category === 'dewasa'"
+                  src="/ukuran/polodewasa.png"
                   alt="Panduan Ukuran Dewasa"
                 />
-                <img 
-                  v-else-if="order.category === 'anak'" 
-                  src="/ukuran/poloanak.png" 
+                <img
+                  v-else-if="order.category === 'anak'"
+                  src="/ukuran/poloanak.png"
                   alt="Panduan Ukuran Anak-Anak"
                 />
               </div>
@@ -233,9 +225,9 @@
           <div class="form-group" v-if="order.size">
             <label>Kuantitas <span class="required">*</span></label>
             <div class="quantity-control">
-              <button 
-                type="button" 
-                class="qty-btn" 
+              <button
+                type="button"
+                class="qty-btn"
                 @click="decreaseQty(index)"
                 :disabled="order.quantity <= getMinQuantity(order.production)"
               >
@@ -243,16 +235,16 @@
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </button>
-              <input 
-                v-model.number="order.quantity" 
-                type="number" 
+              <input
+                v-model.number="order.quantity"
+                type="number"
                 :min="getMinQuantity(order.production)"
                 class="qty-input"
                 @input="calculatePrice(index)"
               />
-              <button 
-                type="button" 
-                class="qty-btn" 
+              <button
+                type="button"
+                class="qty-btn"
                 @click="increaseQty(index)"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -267,12 +259,12 @@
 
           <div class="form-group" v-if="order.size">
             <label class="main-label">Pilih Ukuran Desain DTF <span class="required">*</span></label>
-            
+
             <div class="dtf-section">
               <div class="dtf-subsection">
                 <label class="dtf-label">Logo</label>
                 <div class="dtf-logo-grid">
-                  <div 
+                  <div
                     class="dtf-card"
                     :class="{ 'selected': order.dtf.logo.selected }"
                     @click="toggleDtfLogo(index)"
@@ -292,9 +284,9 @@
                 <div v-if="order.dtf.logo.selected" class="dtf-quantity-section">
                   <label>Kuantitas Logo</label>
                   <div class="quantity-control">
-                    <button 
-                      type="button" 
-                      class="qty-btn" 
+                    <button
+                      type="button"
+                      class="qty-btn"
                       @click="decreaseDtfLogoQty(index)"
                       :disabled="order.dtf.logo.quantity <= 1"
                     >
@@ -302,16 +294,16 @@
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                       </svg>
                     </button>
-                    <input 
-                      v-model.number="order.dtf.logo.quantity" 
-                      type="number" 
+                    <input
+                      v-model.number="order.dtf.logo.quantity"
+                      type="number"
                       min="1"
                       class="qty-input"
                       @input="calculatePrice(index)"
                     />
-                    <button 
-                      type="button" 
-                      class="qty-btn" 
+                    <button
+                      type="button"
+                      class="qty-btn"
                       @click="increaseDtfLogoQty(index)"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -326,8 +318,8 @@
               <div class="dtf-subsection">
                 <label class="dtf-label">Ukuran A5 - A2</label>
                 <div class="dtf-size-grid">
-                  <div 
-                    v-for="(size, key) in dtfSizeOptions" 
+                  <div
+                    v-for="(size, key) in dtfSizeOptions"
                     :key="key"
                     class="dtf-card"
                     :class="{ 'selected': order.dtf.sizes[key].selected, 'disabled': order.dtf.polos && key !== 'polos' }"
@@ -349,9 +341,9 @@
                   <div v-if="size.selected && key !== 'polos'" class="dtf-quantity-section">
                     <label>Kuantitas {{ dtfSizeOptions[key].name }}</label>
                     <div class="quantity-control">
-                      <button 
-                        type="button" 
-                        class="qty-btn" 
+                      <button
+                        type="button"
+                        class="qty-btn"
                         @click="decreaseDtfSizeQty(index, key)"
                         :disabled="size.quantity <= 1"
                       >
@@ -359,16 +351,16 @@
                           <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
                       </button>
-                      <input 
-                        v-model.number="size.quantity" 
-                        type="number" 
+                      <input
+                        v-model.number="size.quantity"
+                        type="number"
                         min="1"
                         class="qty-input"
                         @input="calculatePrice(index)"
                       />
-                      <button 
-                        type="button" 
-                        class="qty-btn" 
+                      <button
+                        type="button"
+                        class="qty-btn"
                         @click="increaseDtfSizeQty(index, key)"
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -382,16 +374,16 @@
               </div>
             </div>
           </div>
-          
+
           <div class="screenshot-guide" v-if="order.size">
             <div class="guide-header">
               <h4 class="guide-title">Catatan Penting - Wajib Screenshot!</h4>
             </div>
-            
+
             <div class="guide-content">
               <p class="guide-warning">
                 <strong>WAJIB screenshot bagian detail harga seperti contoh gambar di bawah ini !</strong>
-                Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>. 
+                Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>.
                 Ini penting sebagai bukti lampiran pemesanan dan penghindaran manipulasi harga.
               </p>
 
@@ -467,7 +459,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="price-summary" v-if="order.size">
             <div class="price-row">
               <span class="price-label">Harga Kaos Polo:</span>
@@ -607,27 +599,37 @@ export default {
       productionOptions: {
         custom: {
           name: 'Kaos Polo Kustom',
-          desc: 'Minimal total 12 pcs'
+          desc: 'Minimal total 12 pcs',
+          image: '/icons/custompolo.png'
         },
         readystock: {
           name: 'Kaos Polo Ready Stock',
-          desc: 'Mulai dari 1 pcs'
+          desc: 'Mulai dari 1 pcs',
+          image: '/icons/poloreadystock.png'
         }
       },
       categoryOptions: {
         dewasa: {
-          name: 'Dewasa'
+          name: 'Dewasa',
+          image: '/icons/polodewasa.png'
         },
         anak: {
-          name: 'Anak-Anak'
+          name: 'Anak-Anak',
+          image: '/icons/kaospoloanak.png'
         }
       },
       typeOptions: {
-        pendek: {
-          name: 'Lengan Pendek'
+        pendek: { name: 'Lengan Pendek' },
+        panjang: { name: 'Lengan Panjang' }
+      },
+      typeImages: {
+        dewasa: {
+          pendek: '/icons/polodewasa.png',
+          panjang: '/icons/dewasapolopanjang.png'
         },
-        panjang: {
-          name: 'Lengan Panjang'
+        anak: {
+          pendek: '/icons/kaospoloanak.png',
+          panjang: '/icons/anakpolopanjang.png'
         }
       },
       dtfSizeOptions: {
@@ -701,17 +703,19 @@ export default {
       const randomNum = Math.floor(Math.random() * 900) + 100;
       this.orderCode = `PoL${randomNum}01`;
     },
+    getTypeImage(typeKey, category) {
+      if (!category) return this.typeImages.dewasa[typeKey];
+      return this.typeImages[category][typeKey];
+    },
     saveCustomerData() {
       if (!this.customer.name || !this.customer.phone || !this.customer.address) {
         this.showError('Data Tidak Lengkap', 'Mohon lengkapi semua data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       this.customerFilled = true;
       this.addOrder();
       this.$nextTick(() => {
@@ -809,7 +813,6 @@ export default {
         const newValue = !this.orders[index].dtf.sizes.polos.selected;
         this.orders[index].dtf.sizes.polos.selected = newValue;
         this.orders[index].dtf.polos = newValue;
-        
         if (newValue) {
           Object.keys(this.orders[index].dtf.sizes).forEach(k => {
             if (k !== 'polos') {
@@ -895,7 +898,6 @@ export default {
     calculatePrice(index) {
       const order = this.orders[index];
       const minQty = 1;
-      
       if (order.quantity) {
         if (order.quantity < minQty) {
           order.quantity = minQty;
@@ -903,28 +905,23 @@ export default {
       } else {
         order.quantity = minQty;
       }
-      
       if (!order.production || !order.category || !order.type || !order.size) {
         order.unitPrice = 0;
         order.totalPrice = 0;
         order.dtfTotalPrice = 0;
         return;
       }
-
       const sizePrice = this.sizeOptions[order.category][order.type][order.size].price;
       order.unitPrice = sizePrice;
-      
       let dtfTotal = 0;
       if (order.dtf.logo.selected) {
         dtfTotal += 10000 * order.dtf.logo.quantity;
       }
-      
       Object.keys(order.dtf.sizes).forEach(key => {
         if (order.dtf.sizes[key].selected && key !== 'polos') {
           dtfTotal += this.dtfSizeOptions[key].price * order.dtf.sizes[key].quantity;
         }
       });
-      
       order.dtfTotalPrice = dtfTotal;
       order.totalPrice = (order.quantity * sizePrice) + dtfTotal;
     },
@@ -960,28 +957,23 @@ export default {
         this.showError('Data Pelanggan Tidak Lengkap', 'Mohon lengkapi data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       for (let i = 0; i < this.orders.length; i++) {
         const order = this.orders[i];
         if (!order.production || !order.category || !order.type || !order.size || !order.quantity) {
           this.showError('Data Pesanan Tidak Lengkap', `Mohon lengkapi data pesanan #${i + 1}! Pastikan semua pilihan sudah diisi!`);
           return;
         }
-
-        const hasDtfSelection = order.dtf.logo.selected || 
+        const hasDtfSelection = order.dtf.logo.selected ||
           Object.keys(order.dtf.sizes).some(key => order.dtf.sizes[key].selected);
-        
         if (!hasDtfSelection) {
           this.showError('DTF Belum Dipilih', `Pesanan #${i + 1} memerlukan pilihan DTF. Mohon pilih minimal satu opsi DTF (Logo atau ukuran A5-A2)!`);
           return;
         }
       }
-
       if (this.totalCustomQuantity > 0 && this.totalCustomQuantity < 12) {
         this.showError('Kuantitas Kustom Tidak Mencukupi', `Total kuantitas Kaos Polo Kustom minimal 12 pcs. Saat ini total kuantitas Kaos Polo Kustom Anda adalah ${this.totalCustomQuantity} pcs. Mohon tambah ${12 - this.totalCustomQuantity} pcs lagi atau ubah jenis produksi menjadi Ready Stock.`);
         return;
@@ -1007,11 +999,9 @@ export default {
 
         if (order.dtfTotalPrice > 0) {
           message += `\n*Detail DTF:*\n`;
-          
           if (order.dtf.logo.selected) {
             message += `- Logo 10 x 10 cm: ${order.dtf.logo.quantity} pcs (${this.formatCurrency(10000 * order.dtf.logo.quantity)})\n`;
           }
-          
           Object.keys(order.dtf.sizes).forEach(key => {
             if (order.dtf.sizes[key].selected) {
               if (key === 'polos') {
@@ -1021,7 +1011,6 @@ export default {
               }
             }
           });
-          
           message += `Harga DTF: ${this.formatCurrency(order.dtfTotalPrice)}\n`;
         }
 
@@ -1308,32 +1297,29 @@ export default {
 .production-icon,
 .category-icon,
 .type-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(102, 126, 234, 0.1);
+  width: 64px;
+  height: 64px;
+  background: rgba(102, 126, 234, 0.08);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .production-card.selected .production-icon,
 .category-card.selected .category-icon,
 .type-card.selected .type-icon {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.production-icon svg,
-.category-icon svg,
-.type-icon svg {
-  color: #667eea;
-}
-
-.production-card.selected .production-icon svg,
-.category-card.selected .category-icon svg,
-.type-card.selected .type-icon svg {
-  color: #fff;
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
 .production-info,
@@ -2027,10 +2013,6 @@ export default {
   margin: 0 0 16px 0;
 }
 
-.size-guide-title svg {
-  color: #0284c7;
-}
-
 .size-guide-image {
   background: #fff;
   border-radius: 12px;
@@ -2056,12 +2038,8 @@ export default {
 }
 
 @keyframes pulseWarning {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
-  }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 68, 68, 0); }
 }
 
 .guide-header {
@@ -2070,28 +2048,6 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.guide-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  animation: iconBounce 1s ease-in-out infinite;
-}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.guide-icon svg {
-  color: #fff;
 }
 
 .guide-title {
@@ -2267,519 +2223,238 @@ export default {
 .step-number {
   display: flex;
   align-items: center;
-justify-content: center;
-width: 32px;
-height: 32px;
-min-width: 32px;
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-color: #fff;
-border-radius: 50%;
-font-weight: 800;
-font-size: 0.95rem;
-flex-shrink: 0;
-box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
+
 .step-text {
-flex: 1;
-color: #374151;
-font-size: 0.9rem;
-line-height: 1.7;
-font-weight: 500;
-padding-top: 4px;
-word-break: break-word;
+  flex: 1;
+  color: #374151;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  font-weight: 500;
+  padding-top: 4px;
+  word-break: break-word;
 }
+
 .step-text strong {
-color: #1f2937;
-font-weight: 800;
+  color: #1f2937;
+  font-weight: 800;
 }
+
 .highlight-step {
-background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
-border-left-color: #f59e0b !important;
-border-width: 4px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border-left-color: #f59e0b !important;
+  border-width: 4px;
 }
+
 .highlight-step .step-number {
-background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
-animation: numberPulse 1.5s ease-in-out infinite;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+  animation: numberPulse 1.5s ease-in-out infinite;
 }
+
 @keyframes numberPulse {
-0%, 100% { transform: scale(1); }
-50% { transform: scale(1.1); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
+
 .highlight-step .step-text {
-color: #78350f;
+  color: #78350f;
 }
+
 .sub-steps {
-margin: 12px 0 0 0;
-padding-left: 20px;
-list-style-type: none;
-counter-reset: sub-counter;
+  margin: 12px 0 0 0;
+  padding-left: 20px;
+  list-style-type: none;
+  counter-reset: sub-counter;
 }
+
 .sub-steps li {
-margin-bottom: 8px;
-color: #78350f;
-font-size: 0.875rem;
-line-height: 1.6;
-padding-left: 24px;
-position: relative;
-word-break: break-word;
+  margin-bottom: 8px;
+  color: #78350f;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  padding-left: 24px;
+  position: relative;
+  word-break: break-word;
 }
+
 .sub-steps li::before {
-content: "→";
-position: absolute;
-left: 0;
-color: #f59e0b;
-font-weight: 800;
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #f59e0b;
+  font-weight: 800;
 }
+
 .sub-steps li:last-child {
-margin-bottom: 0;
+  margin-bottom: 0;
 }
+
 .sub-steps strong {
-color: #78350f;
-font-weight: 800;
+  color: #78350f;
+  font-weight: 800;
 }
+
 .guide-footer {
-background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-padding: 14px 20px;
-border-radius: 10px;
-display: flex;
-align-items: center;
-gap: 12px;
-border: 2px solid #fbbf24;
-flex-wrap: wrap;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  padding: 14px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid #fbbf24;
+  flex-wrap: wrap;
 }
-.guide-footer svg {
-color: #f59e0b;
-flex-shrink: 0;
-}
+
 .guide-footer span {
-color: #78350f;
-font-size: 0.9rem;
-font-weight: 700;
-line-height: 1.5;
-flex: 1;
-word-break: break-word;
+  color: #78350f;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.5;
+  flex: 1;
+  word-break: break-word;
 }
+
 @keyframes fadeIn {
-from {
-opacity: 0;
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-to {
-opacity: 1;
-}
-}
+
 @keyframes slideUp {
-from {
-opacity: 0;
-transform: translateY(40px) scale(0.9);
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
-to {
-opacity: 1;
-transform: translateY(0) scale(1);
-}
-}
+
 @keyframes iconPulse {
-0%, 100% {
-transform: scale(1);
-box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4);
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }
 }
-50% {
-transform: scale(1.05);
-box-shadow: 0 0 0 15px rgba(251, 191, 36, 0);
-}
-}
+
 @keyframes fadeInDown {
-from {
-opacity: 0;
-transform: translateY(-30px);
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
+
 @keyframes fadeInUp {
-from {
-opacity: 0;
-transform: translateY(30px);
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
+
 @keyframes shake {
-0%, 100% { transform: translateX(0); }
-25% { transform: translateX(-5px); }
-75% { transform: translateX(5px); }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
+
 @keyframes checkPop {
-0% { transform: scale(0); }
-50% { transform: scale(1.1); }
-100% { transform: scale(1); }
+  0% { transform: scale(0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
+
 @media (max-width: 768px) {
-.polo-order {
-padding: 30px 15px 140px;
+  .polo-order { padding: 30px 15px 140px; }
+  .back-btn { padding: 8px 16px; font-size: 0.85rem; }
+  .back-btn svg { width: 16px; height: 16px; }
+  .title { font-size: 2rem; }
+  .subtitle { font-size: 1rem; }
+  .product-polo { height: 200px; margin-bottom: 30px; }
+  .polo-overlay p { font-size: 1rem; }
+  .card-header { padding: 20px; }
+  .card-title { font-size: 1.2rem; }
+  .card-body { padding: 20px; }
+  .production-grid, .category-grid, .type-grid { grid-template-columns: 1fr; }
+  .size-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+  .dtf-size-grid { grid-template-columns: 1fr; }
+  .action-section { grid-template-columns: 1fr; padding: 20px; gap: 10px; }
+  .btn { width: 100%; padding: 12px 20px; font-size: 0.9rem; }
+  .grand-total-section { padding: 24px 20px; }
+  .total-content { flex-direction: column; text-align: center; }
+  .total-icon { width: 50px; height: 50px; }
+  .total-icon svg { width: 24px; height: 24px; }
+  .total-amount { font-size: 1.8rem; }
+  .dialog-box { padding: 28px 20px; }
+  .dialog-icon { width: 60px; height: 60px; }
+  .dialog-icon svg { width: 48px; height: 48px; }
+  .dialog-title { font-size: 1.3rem; }
+  .dialog-message { font-size: 0.9rem; }
+  .dialog-actions { grid-template-columns: 1fr; }
+  .dialog-btn { padding: 12px 20px; font-size: 0.9rem; }
+  .dtf-section { padding: 20px; }
+  .size-guide-section { padding: 16px; }
+  .size-guide-title { font-size: 1rem; }
+  .size-guide-image { padding: 12px; }
+  .screenshot-guide { margin-top: 20px; border-width: 2px; }
+  .guide-header { padding: 16px 20px; gap: 10px; }
+  .guide-title { font-size: 1rem; line-height: 1.4; }
+  .guide-content { padding: 20px; }
+  .guide-warning { font-size: 0.875rem; padding: 14px; line-height: 1.6; }
+  .example-label { font-size: 0.875rem; gap: 6px; }
+  .example-label svg { width: 18px; height: 18px; }
+  .example-badge { font-size: 0.7rem; padding: 5px 12px; top: -6px; right: -6px; }
+  .example-image { padding: 12px; }
+  .example-image img { max-width: 220px; }
+  .example-caption { font-size: 0.8rem; padding: 8px 14px; gap: 6px; }
+  .guide-steps { padding: 16px; }
+  .steps-title { font-size: 0.95rem; }
+  .steps-list > li { padding: 12px; gap: 12px; }
+  .step-number { width: 28px; height: 28px; min-width: 28px; font-size: 0.875rem; }
+  .step-text { font-size: 0.85rem; line-height: 1.6; }
+  .sub-steps { padding-left: 16px; }
+  .sub-steps li { font-size: 0.8rem; padding-left: 20px; }
+  .guide-footer { padding: 12px 16px; gap: 10px; }
+  .guide-footer span { font-size: 0.8rem; }
 }
-.back-btn {
-padding: 8px 16px;
-font-size: 0.85rem;
-}
-.back-btn svg {
-width: 16px;
-height: 16px;
-}
-.title {
-font-size: 2rem;
-}
-.subtitle {
-font-size: 1rem;
-}
-.product-polo {
-height: 200px;
-margin-bottom: 30px;
-}
-.polo-overlay p {
-font-size: 1rem;
-}
-.card-header {
-padding: 20px;
-}
-.card-title {
-font-size: 1.2rem;
-}
-.card-body {
-padding: 20px;
-}
-.production-grid,
-.category-grid,
-.type-grid {
-grid-template-columns: 1fr;
-}
-.size-grid {
-grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-}
-.dtf-size-grid {
-grid-template-columns: 1fr;
-}
-.action-section {
-grid-template-columns: 1fr;
-padding: 20px;
-gap: 10px;
-}
-.btn {
-width: 100%;
-padding: 12px 20px;
-font-size: 0.9rem;
-}
-.grand-total-section {
-padding: 24px 20px;
-}
-.total-content {
-flex-direction: column;
-text-align: center;
-}
-.total-icon {
-width: 50px;
-height: 50px;
-}
-.total-icon svg {
-width: 24px;
-height: 24px;
-}
-.total-amount {
-font-size: 1.8rem;
-}
-.dialog-box {
-padding: 28px 20px;
-}
-.dialog-icon {
-width: 60px;
-height: 60px;
-}
-.dialog-icon svg {
-width: 48px;
-height: 48px;
-}
-.dialog-title {
-font-size: 1.3rem;
-}
-.dialog-message {
-font-size: 0.9rem;
-}
-.dialog-actions {
-grid-template-columns: 1fr;
-}
-.dialog-btn {
-padding: 12px 20px;
-font-size: 0.9rem;
-}
-.dtf-section {
-padding: 20px;
-}
-.size-guide-section {
-padding: 16px;
-}
-.size-guide-title {
-font-size: 1rem;
-}
-.size-guide-image {
-padding: 12px;
-}
-.screenshot-guide {
-margin-top: 20px;
-border-width: 2px;
-}
-.guide-header {
-padding: 16px 20px;
-gap: 10px;
-}
-.guide-icon {
-width: 36px;
-height: 36px;
-}
-.guide-icon svg {
-width: 20px;
-height: 20px;
-}
-.guide-title {
-font-size: 1rem;
-line-height: 1.4;
-}
-.guide-content {
-padding: 20px;
-}
-.guide-warning {
-font-size: 0.875rem;
-padding: 14px;
-line-height: 1.6;
-}
-.example-label {
-font-size: 0.875rem;
-gap: 6px;
-}
-.example-label svg {
-width: 18px;
-height: 18px;
-}
-.example-badge {
-font-size: 0.7rem;
-padding: 5px 12px;
-top: -6px;
-right: -6px;
-}
-.example-image {
-padding: 12px;
-}
-.example-image img {
-max-width: 220px;
-}
-.example-caption {
-font-size: 0.8rem;
-padding: 8px 14px;
-gap: 6px;
-}
-.guide-steps {
-padding: 16px;
-}
-.steps-title {
-font-size: 0.95rem;
-}
-.steps-list > li {
-padding: 12px;
-gap: 12px;
-}
-.step-number {
-width: 28px;
-height: 28px;
-min-width: 28px;
-font-size: 0.875rem;
-}
-.step-text {
-font-size: 0.85rem;
-line-height: 1.6;
-}
-.sub-steps {
-padding-left: 16px;
-}
-.sub-steps li {
-font-size: 0.8rem;
-padding-left: 20px;
-}
-.guide-footer {
-padding: 12px 16px;
-gap: 10px;
-}
-.guide-footer svg {
-width: 18px;
-height: 18px;
-}
-.guide-footer span {
-font-size: 0.8rem;
-}
-}
+
 @media (max-width: 480px) {
-.polo-order {
-padding: 20px 12px 160px;
-}
-.back-btn {
-padding: 8px 14px;
-font-size: 0.8rem;
-}
-.back-btn svg {
-width: 14px;
-height: 14px;
-}
-.title {
-font-size: 1.6rem;
-}
-.subtitle {
-font-size: 0.9rem;
-}
-.product-polo {
-height: 180px;
-}
-.card-header {
-flex-direction: column;
-align-items: flex-start;
-gap: 12px;
-}
-.remove-btn {
-width: 100%;
-justify-content: center;
-}
-.size-grid {
-grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-}
-.total-amount {
-font-size: 1.6rem;
-}
-.btn {
-padding: 12px 20px;
-font-size: 0.9rem;
-}
-.size-guide-section {
-padding: 14px;
-}
-.size-guide-title {
-font-size: 0.95rem;
-}
-.size-guide-image {
-padding: 10px;
-}
-.screenshot-guide {
-border-radius: 14px;
-}
-.guide-header {
-padding: 12px 16px;
-gap: 8px;
-}
-.guide-icon {
-width: 32px;
-height: 32px;
-}
-.guide-icon svg {
-width: 18px;
-height: 18px;
-}
-.guide-title {
-font-size: 0.9rem;
-line-height: 1.4;
-}
-.guide-content {
-padding: 16px;
-}
-.guide-warning {
-font-size: 0.8rem;
-padding: 12px;
-border-radius: 10px;
-}
-.example-label {
-font-size: 0.8rem;
-gap: 5px;
-}
-.example-label svg {
-width: 16px;
-height: 16px;
-}
-.example-badge {
-font-size: 0.65rem;
-padding: 4px 10px;
-top: -5px;
-right: -5px;
-letter-spacing: 0.3px;
-}
-.example-image {
-padding: 10px;
-}
-.example-image img {
-max-width: 100%;
-}
-.example-caption {
-font-size: 0.75rem;
-padding: 8px 12px;
-gap: 5px;
-}
-.example-caption svg {
-width: 14px;
-height: 14px;
-}
-.guide-steps {
-padding: 14px;
-border-radius: 10px;
-}
-.steps-title {
-font-size: 0.875rem;
-gap: 6px;
-margin-bottom: 14px;
-}
-.steps-title svg {
-width: 16px;
-height: 16px;
-}
-.steps-list > li {
-padding: 10px;
-gap: 10px;
-margin-bottom: 10px;
-border-radius: 8px;
-}
-.step-number {
-width: 26px;
-height: 26px;
-min-width: 26px;
-font-size: 0.8rem;
-}
-.step-text {
-font-size: 0.8rem;
-line-height: 1.6;
-padding-top: 2px;
-}
-.highlight-step {
-padding: 10px !important;
-}
-.sub-steps {
-margin-top: 10px;
-padding-left: 14px;
-}
-.sub-steps li {
-font-size: 0.75rem;
-padding-left: 18px;
-margin-bottom: 6px;
-line-height: 1.5;
-}
-.guide-footer {
-padding: 10px 14px;
-gap: 8px;
-border-radius: 8px;
-}
-.guide-footer svg {
-width: 16px;
-height: 16px;
-}
-.guide-footer span {
-font-size: 0.75rem;
-line-height: 1.4;
-    }
+  .polo-order { padding: 20px 12px 160px; }
+  .back-btn { padding: 8px 14px; font-size: 0.8rem; }
+  .back-btn svg { width: 14px; height: 14px; }
+  .title { font-size: 1.6rem; }
+  .subtitle { font-size: 0.9rem; }
+  .product-polo { height: 180px; }
+  .card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .remove-btn { width: 100%; justify-content: center; }
+  .production-icon, .category-icon, .type-icon { width: 56px; height: 56px; }
+  .size-grid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); }
+  .total-amount { font-size: 1.6rem; }
+  .btn { padding: 12px 20px; font-size: 0.9rem; }
+  .size-guide-section { padding: 14px; }
+  .size-guide-title { font-size: 0.95rem; }
+  .size-guide-image { padding: 10px; }
+  .screenshot-guide { border-radius: 14px; }
+  .guide-header { padding: 12px 16px; gap: 8px; }
+  .guide-title { font-size: 0.9rem; line-height: 1.4; }
+  .guide-content { padding: 16px; }
+  .guide-warning { font-size: 0.8rem; padding: 12px; border-radius: 10px; }
+  .example-label { font-size: 0.8rem; gap: 5px; }
+  .example-label svg { width: 16px; height: 16px; }
+  .example-badge { font-size: 0.65rem; padding: 4px 10px; top: -5px; right: -5px; }
+  .example-image { padding: 10px; }
+  .example-image img { max-width: 100%; }
+  .example-caption { font-size: 0.75rem; padding: 8px 12px; gap: 5px; }
+  .example-caption svg { width: 14px; height: 14px; }
+  .guide-steps { padding: 14px; border-radius: 10px; }
+  .steps-title { font-size: 0.875rem; gap: 6px; margin-bottom: 14px; }
+  .steps-title svg { width: 16px; height: 16px; }
+  .steps-list > li { padding: 10px; gap: 10px; margin-bottom: 10px; border-radius: 8px; }
+  .step-number { width: 26px; height: 26px; min-width: 26px; font-size: 0.8rem; }
+  .step-text { font-size: 0.8rem; line-height: 1.6; padding-top: 2px; }
+  .highlight-step { padding: 10px !important; }
+  .sub-steps { margin-top: 10px; padding-left: 14px; }
+  .sub-steps li { font-size: 0.75rem; padding-left: 18px; margin-bottom: 6px; line-height: 1.5; }
+  .guide-footer { padding: 10px 14px; gap: 8px; border-radius: 8px; }
+  .guide-footer span { font-size: 0.75rem; line-height: 1.4; }
 }
 </style>

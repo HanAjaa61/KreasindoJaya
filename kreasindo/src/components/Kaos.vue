@@ -117,10 +117,7 @@
                 @click="selectCategory(index, key)"
               >
                 <div class="category-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                  </svg>
+                  <img :src="category.image" :alt="category.name" class="card-img" />
                 </div>
                 <div class="category-info">
                   <h4 class="category-name">{{ category.name }}</h4>
@@ -145,9 +142,7 @@
                 @click="selectType(index, key)"
               >
                 <div class="type-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"></path>
-                </svg>
+                  <img :src="type.images[order.category] || type.images.dewasa" :alt="type.name" class="card-img" />
                 </div>
                 <div class="type-info">
                   <h4 class="type-name">{{ type.name }}</h4>
@@ -215,92 +210,212 @@
                 </svg>
               </button>
             </div>
-            <p class="helper-text">Minimal total kuantitas keseluruhan 1 lusin (12 pcs)</p>
+            <p class="helper-text">Minimal 1 pcs</p>
           </div>
+
+          <div class="form-group" v-if="order.size">
+            <label class="main-label">Pilih Ukuran Desain DTF <span class="required">*</span></label>
+            
+            <div class="dtf-section">
+              <div class="dtf-subsection">
+                <label class="dtf-label">Logo</label>
+                <div class="dtf-logo-grid">
+                  <div 
+                    class="dtf-card"
+                    :class="{ 'selected': order.dtf.logo.selected }"
+                    @click="toggleDtfLogo(index)"
+                  >
+                    <div class="dtf-info">
+                      <h4 class="dtf-name">Logo 10 x 10 cm</h4>
+                      <p class="dtf-price">{{ formatCurrency(10000) }}</p>
+                    </div>
+                    <div class="check-icon-small" v-if="order.dtf.logo.selected">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="order.dtf.logo.selected" class="dtf-quantity-section">
+                  <label>Kuantitas Logo</label>
+                  <div class="quantity-control">
+                    <button 
+                      type="button" 
+                      class="qty-btn" 
+                      @click="decreaseDtfLogoQty(index)"
+                      :disabled="order.dtf.logo.quantity <= 1"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </button>
+                    <input 
+                      v-model.number="order.dtf.logo.quantity" 
+                      type="number" 
+                      min="1"
+                      class="qty-input"
+                      @input="calculatePrice(index)"
+                    />
+                    <button 
+                      type="button" 
+                      class="qty-btn" 
+                      @click="increaseDtfLogoQty(index)"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dtf-subsection">
+                <label class="dtf-label">Ukuran A5 - A2</label>
+                <div class="dtf-size-grid">
+                  <div 
+                    v-for="(size, key) in dtfSizeOptions" 
+                    :key="key"
+                    class="dtf-card"
+                    :class="{ 'selected': order.dtf.sizes[key].selected, 'disabled': order.dtf.polos && key !== 'polos' }"
+                    @click="toggleDtfSize(index, key)"
+                  >
+                    <div class="dtf-info">
+                      <h4 class="dtf-name">{{ size.name }}</h4>
+                      <p class="dtf-price">{{ formatCurrency(size.price) }}</p>
+                    </div>
+                    <div class="check-icon-small" v-if="order.dtf.sizes[key].selected">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-for="(size, key) in order.dtf.sizes" :key="key">
+                  <div v-if="size.selected && key !== 'polos'" class="dtf-quantity-section">
+                    <label>Kuantitas {{ dtfSizeOptions[key].name }}</label>
+                    <div class="quantity-control">
+                      <button 
+                        type="button" 
+                        class="qty-btn" 
+                        @click="decreaseDtfSizeQty(index, key)"
+                        :disabled="size.quantity <= 1"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                      <input 
+                        v-model.number="size.quantity" 
+                        type="number" 
+                        min="1"
+                        class="qty-input"
+                        @input="calculatePrice(index)"
+                      />
+                      <button 
+                        type="button" 
+                        class="qty-btn" 
+                        @click="increaseDtfSizeQty(index, key)"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="screenshot-guide" v-if="order.size">
-  <div class="guide-header">
-    <h4 class="guide-title">Catatan Penting - Wajib Screenshot!</h4>
-  </div>
-  
-  <div class="guide-content">
-    <p class="guide-warning">
-      <strong>WAJIB screenshot bagian detail harga seperti contoh gambar di bawah ini !</strong>
-      Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>. 
-      Ini penting sebagai bukti lampiran pemesanan dan penghindaran manipulasi harga.
-    </p>
+            <div class="guide-header">
+              <h4 class="guide-title">Catatan Penting - Wajib Screenshot!</h4>
+            </div>
+            
+            <div class="guide-content">
+              <p class="guide-warning">
+                <strong>WAJIB screenshot bagian detail harga seperti contoh gambar di bawah ini !</strong>
+                Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>. 
+                Ini penting sebagai bukti lampiran pemesanan dan penghindaran manipulasi harga.
+              </p>
 
-    <div class="guide-example">
-      <p class="example-label">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-          <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-        Contoh Screenshot yang Benar:
-      </p>
-      <div class="example-image-wrapper">
-        <div class="example-badge">SCREENSHOT INI!</div>
-        <div class="example-image">
-          <img src="/buktipesan.png" alt="Contoh Screenshot Detail Harga" />
-        </div>
-        <div class="example-caption">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-          </svg>
-          Screenshot bagian ringkasan harga seperti ini
-        </div>
-      </div>
-    </div>
+              <div class="guide-example">
+                <p class="example-label">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  Contoh Screenshot yang Benar:
+                </p>
+                <div class="example-image-wrapper">
+                  <div class="example-badge">SCREENSHOT INI!</div>
+                  <div class="example-image">
+                    <img src="/buktipesan.png" alt="Contoh Screenshot Detail Harga" />
+                  </div>
+                  <div class="example-caption">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Screenshot bagian ringkasan harga seperti ini
+                  </div>
+                </div>
+              </div>
 
-    <div class="guide-steps">
-      <p class="steps-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="8" y1="6" x2="21" y2="6"></line>
-          <line x1="8" y1="12" x2="21" y2="12"></line>
-          <line x1="8" y1="18" x2="21" y2="18"></line>
-          <line x1="3" y1="6" x2="3.01" y2="6"></line>
-          <line x1="3" y1="12" x2="3.01" y2="12"></line>
-          <line x1="3" y1="18" x2="3.01" y2="18"></line>
-        </svg>
-        Langkah-langkah:
-      </p>
-      <ol class="steps-list">
-        <li>
-          <span class="step-number">1</span>
-          <span class="step-text">Selesaikan pemilihan detail pesanan</span>
-        </li>
-        <li>
-          <span class="step-number">2</span>
-          <span class="step-text">Geser ke bawah hingga menemukan ringkasan harga seperti contoh gambar di atas</span>
-        </li>
-        <li>
-          <span class="step-number">3</span>
-          <span class="step-text"><strong>Screenshot dan simpan gambar</strong></span>
-        </li>
-        <li>
-          <span class="step-number">4</span>
-          <span class="step-text">Klik tombol <strong>"Kirim ke WhatsApp"</strong> dan Anda akan diarahkan ke kontak kami</span>
-        </li>
-        <li class="highlight-step">
-          <span class="step-number">5</span>
-          <div class="step-text">
-            <strong>JANGAN langsung kirim pesannya!</strong> Lampirkan dahulu foto hasil screenshot:
-            <ul class="sub-steps">
-              <li>Pilih ikon <strong> 🧷 (pin / lampiran)</strong> di sebelah kanan kotak pesan WhatsApp</li>
-              <li>Pilih <strong>Galeri</strong></li>
-              <li>Pilih foto hasil screenshot ringkasan harga pesanan anda di website CV. Kreasindo Jaya sebelumnya. (jika anda memiliki lebih dari 1 pesanan, maka foto semua bagian ringkasan harga sesuai contoh gambar diatas, kemudian pilih semua gambar sekaligus.)</li>
-              <li>Kemudian <strong>baru klik kirim pesan</strong></li>
-            </ul>
+              <div class="guide-steps">
+                <p class="steps-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                  </svg>
+                  Langkah-langkah:
+                </p>
+                <ol class="steps-list">
+                  <li>
+                    <span class="step-number">1</span>
+                    <span class="step-text">Selesaikan pemilihan detail pesanan</span>
+                  </li>
+                  <li>
+                    <span class="step-number">2</span>
+                    <span class="step-text">Geser ke bawah hingga menemukan ringkasan harga seperti contoh gambar di atas</span>
+                  </li>
+                  <li>
+                    <span class="step-number">3</span>
+                    <span class="step-text"><strong>Screenshot dan simpan gambar</strong></span>
+                  </li>
+                  <li>
+                    <span class="step-number">4</span>
+                    <span class="step-text">Klik tombol <strong>"Kirim ke WhatsApp"</strong> dan Anda akan diarahkan ke kontak kami</span>
+                  </li>
+                  <li class="highlight-step">
+                    <span class="step-number">5</span>
+                    <div class="step-text">
+                      <strong>JANGAN langsung kirim pesannya!</strong> Lampirkan dahulu foto hasil screenshot:
+                      <ul class="sub-steps">
+                        <li>Pilih ikon <strong> 🧷 (pin / lampiran)</strong> di sebelah kanan kotak pesan WhatsApp</li>
+                        <li>Pilih <strong>Galeri</strong></li>
+                        <li>Pilih foto hasil screenshot ringkasan harga pesanan anda di website CV. Kreasindo Jaya sebelumnya. (jika anda memiliki lebih dari 1 pesanan, maka foto semua bagian ringkasan harga sesuai contoh gambar diatas, kemudian pilih semua gambar sekaligus.)</li>
+                        <li>Kemudian <strong>baru klik kirim pesan</strong></li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="guide-footer">
+                <span>Catatan: Pesanan tanpa lampiran screenshot yang valid dapat ditolak atau dengan kesepakatan bersama !</span>
+              </div>
+            </div>
           </div>
-        </li>
-      </ol>
-    </div>
 
-    <div class="guide-footer">
-      <span>Catatan: Pesanan tanpa lampiran screenshot yang valid dapat ditolak atau dengan kesepakatan bersama !</span>
-    </div>
-  </div>
-</div>
           <div class="price-summary" v-if="order.size">
             <div class="price-row">
               <span class="price-label">Harga Satuan:</span>
@@ -310,6 +425,10 @@
               <span class="price-label">Jumlah:</span>
               <span class="price-value">{{ order.quantity }} pcs</span>
             </div>
+            <div v-if="order.dtfTotalPrice > 0" class="price-row">
+              <span class="price-label">Harga DTF:</span>
+              <span class="price-value">{{ formatCurrency(order.dtfTotalPrice) }}</span>
+            </div>
             <div class="price-row total-row">
               <span class="price-label">Total Harga:</span>
               <span class="price-value total">{{ formatCurrency(order.totalPrice) }}</span>
@@ -317,6 +436,7 @@
           </div>
         </div>
       </div>
+
       <div v-if="customerFilled && orders.length > 0" class="summary-card">
         <div class="grand-total-section">
           <div class="total-content">
@@ -434,19 +554,38 @@ export default {
       errorMessage: '',
       categoryOptions: {
         dewasa: {
-          name: 'Dewasa'
+          name: 'Dewasa',
+          image: '/icons/dewasa.png'
         },
         anak: {
-          name: 'Anak-Anak'
+          name: 'Anak-Anak',
+          image: '/icons/anak.png'
         }
       },
       typeOptions: {
         pendek: {
-          name: 'Lengan Pendek'
+          name: 'Lengan Pendek',
+          images: {
+            dewasa: '/icons/dewasapendek.png',
+            anak: '/icons/anakpendek.png'
+          }
         },
         panjang: {
-          name: 'Lengan Panjang'
+          name: 'Lengan Panjang',
+          images: {
+            dewasa: '/icons/dewasa.png',
+            anak: '/icons/anak.png'
+          }
         }
+      },
+      dtfSizeOptions: {
+        a5_10x30: { name: 'A5 10 x 30 cm', price: 15000 },
+        a5_10x21: { name: 'A5 10 x 21 cm', price: 15000 },
+        a4: { name: 'A4 21 x 30 cm', price: 25000 },
+        a3_30x42: { name: 'A3 30 x 42 cm', price: 35000 },
+        a3_33x48: { name: 'A3 33 x 48 cm', price: 40000 },
+        a2: { name: 'A2 42 x 60 cm', price: 45000 },
+        polos: { name: 'Polos', price: 0 }
       },
       sizeOptions: {
         dewasa: {
@@ -514,12 +653,10 @@ export default {
         this.showError('Data Tidak Lengkap', 'Mohon lengkapi semua data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       this.customerFilled = true;
       this.addOrder();
       this.$nextTick(() => {
@@ -558,12 +695,16 @@ export default {
       this.orders[index].size = '';
       this.orders[index].unitPrice = 0;
       this.orders[index].totalPrice = 0;
+      this.orders[index].dtfTotalPrice = 0;
+      this.resetDtf(index);
     },
     selectType(index, key) {
       this.orders[index].type = key;
       this.orders[index].size = '';
       this.orders[index].unitPrice = 0;
       this.orders[index].totalPrice = 0;
+      this.orders[index].dtfTotalPrice = 0;
+      this.resetDtf(index);
     },
     selectSize(index, key) {
       this.orders[index].size = key;
@@ -573,6 +714,77 @@ export default {
       if (!category || !type) return {};
       return this.sizeOptions[category][type] || {};
     },
+    resetDtf(index) {
+      this.orders[index].dtf = {
+        logo: {
+          selected: false,
+          quantity: 1
+        },
+        sizes: {
+          a5_10x30: { selected: false, quantity: 1 },
+          a5_10x21: { selected: false, quantity: 1 },
+          a4: { selected: false, quantity: 1 },
+          a3_30x42: { selected: false, quantity: 1 },
+          a3_33x48: { selected: false, quantity: 1 },
+          a2: { selected: false, quantity: 1 },
+          polos: { selected: false, quantity: 1 }
+        },
+        polos: false
+      };
+      this.orders[index].dtfTotalPrice = 0;
+    },
+    toggleDtfLogo(index) {
+      this.orders[index].dtf.logo.selected = !this.orders[index].dtf.logo.selected;
+      if (!this.orders[index].dtf.logo.selected) {
+        this.orders[index].dtf.logo.quantity = 1;
+      }
+      this.calculatePrice(index);
+    },
+    toggleDtfSize(index, key) {
+      if (key === 'polos') {
+        const newValue = !this.orders[index].dtf.sizes.polos.selected;
+        this.orders[index].dtf.sizes.polos.selected = newValue;
+        this.orders[index].dtf.polos = newValue;
+        if (newValue) {
+          Object.keys(this.orders[index].dtf.sizes).forEach(k => {
+            if (k !== 'polos') {
+              this.orders[index].dtf.sizes[k].selected = false;
+              this.orders[index].dtf.sizes[k].quantity = 1;
+            }
+          });
+        }
+      } else {
+        if (this.orders[index].dtf.polos) {
+          this.orders[index].dtf.sizes.polos.selected = false;
+          this.orders[index].dtf.polos = false;
+        }
+        this.orders[index].dtf.sizes[key].selected = !this.orders[index].dtf.sizes[key].selected;
+        if (!this.orders[index].dtf.sizes[key].selected) {
+          this.orders[index].dtf.sizes[key].quantity = 1;
+        }
+      }
+      this.calculatePrice(index);
+    },
+    increaseDtfLogoQty(index) {
+      this.orders[index].dtf.logo.quantity += 1;
+      this.calculatePrice(index);
+    },
+    decreaseDtfLogoQty(index) {
+      if (this.orders[index].dtf.logo.quantity > 1) {
+        this.orders[index].dtf.logo.quantity -= 1;
+        this.calculatePrice(index);
+      }
+    },
+    increaseDtfSizeQty(index, key) {
+      this.orders[index].dtf.sizes[key].quantity += 1;
+      this.calculatePrice(index);
+    },
+    decreaseDtfSizeQty(index, key) {
+      if (this.orders[index].dtf.sizes[key].quantity > 1) {
+        this.orders[index].dtf.sizes[key].quantity -= 1;
+        this.calculatePrice(index);
+      }
+    },
     addOrder() {
       this.orders.push({
         category: '',
@@ -580,7 +792,24 @@ export default {
         size: '',
         quantity: 1,
         unitPrice: 0,
-        totalPrice: 0
+        totalPrice: 0,
+        dtf: {
+          logo: {
+            selected: false,
+            quantity: 1
+          },
+          sizes: {
+            a5_10x30: { selected: false, quantity: 1 },
+            a5_10x21: { selected: false, quantity: 1 },
+            a4: { selected: false, quantity: 1 },
+            a3_30x42: { selected: false, quantity: 1 },
+            a3_33x48: { selected: false, quantity: 1 },
+            a2: { selected: false, quantity: 1 },
+            polos: { selected: false, quantity: 1 }
+          },
+          polos: false
+        },
+        dtfTotalPrice: 0
       });
     },
     removeOrder(index) {
@@ -598,7 +827,7 @@ export default {
     },
     calculatePrice(index) {
       const order = this.orders[index];
-      
+
       if (order.quantity) {
         if (order.quantity < 1) {
           order.quantity = 1;
@@ -606,16 +835,28 @@ export default {
       } else {
         order.quantity = 1;
       }
-      
+
       if (!order.category || !order.type || !order.size) {
         order.unitPrice = 0;
         order.totalPrice = 0;
+        order.dtfTotalPrice = 0;
         return;
       }
 
       const sizePrice = this.sizeOptions[order.category][order.type][order.size].price;
       order.unitPrice = sizePrice;
-      order.totalPrice = order.quantity * sizePrice;
+
+      let dtfTotal = 0;
+      if (order.dtf.logo.selected) {
+        dtfTotal += 10000 * order.dtf.logo.quantity;
+      }
+      Object.keys(order.dtf.sizes).forEach(key => {
+        if (order.dtf.sizes[key].selected && key !== 'polos') {
+          dtfTotal += this.dtfSizeOptions[key].price * order.dtf.sizes[key].quantity;
+        }
+      });
+      order.dtfTotalPrice = dtfTotal;
+      order.totalPrice = (order.quantity * sizePrice) + dtfTotal;
     },
     formatCurrency(amount) {
       return new Intl.NumberFormat('id-ID', {
@@ -649,25 +890,23 @@ export default {
         this.showError('Data Pelanggan Tidak Lengkap', 'Mohon lengkapi data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       for (let i = 0; i < this.orders.length; i++) {
         const order = this.orders[i];
         if (!order.category || !order.type || !order.size || !order.quantity) {
           this.showError('Data Pesanan Tidak Lengkap', `Mohon lengkapi data pesanan #${i + 1}! Pastikan semua pilihan sudah diisi!`);
           return;
         }
+        const hasDtfSelection = order.dtf.logo.selected ||
+          Object.keys(order.dtf.sizes).some(key => order.dtf.sizes[key].selected);
+        if (!hasDtfSelection) {
+          this.showError('DTF Belum Dipilih', `Pesanan #${i + 1} belum memilih opsi DTF. Mohon pilih minimal satu opsi DTF (Logo atau ukuran A5-A2 atau Polos)!`);
+          return;
+        }
       }
-
-      if (this.totalQuantity < 12) {
-        this.showError('Kuantitas Tidak Mencukupi', `Total kuantitas minimal 12 pcs (1 lusin). Saat ini total kuantitas Anda adalah ${this.totalQuantity} pcs. Mohon tambah ${12 - this.totalQuantity} pcs lagi.`);
-        return;
-      }
-
       let message = `*PESANAN KAOS*\n\n`;
       message += `*DATA PELANGGAN*\n`;
       message += `Nama: ${this.customer.name}\n`;
@@ -684,6 +923,27 @@ export default {
         message += `Ukuran: ${order.size}\n`;
         message += `Kuantitas: ${order.quantity} pcs\n`;
         message += `Harga Satuan: ${this.formatCurrency(order.unitPrice)}\n`;
+        message += `Harga Kaos: ${this.formatCurrency(order.unitPrice * order.quantity)}\n`;
+
+        if (order.dtfTotalPrice > 0 || order.dtf.sizes.polos.selected) {
+          message += `\n*Detail DTF:*\n`;
+          if (order.dtf.logo.selected) {
+            message += `- Logo 10 x 10 cm: ${order.dtf.logo.quantity} pcs (${this.formatCurrency(10000 * order.dtf.logo.quantity)})\n`;
+          }
+          Object.keys(order.dtf.sizes).forEach(key => {
+            if (order.dtf.sizes[key].selected) {
+              if (key === 'polos') {
+                message += `- ${this.dtfSizeOptions[key].name}\n`;
+              } else {
+                message += `- ${this.dtfSizeOptions[key].name}: ${order.dtf.sizes[key].quantity} pcs (${this.formatCurrency(this.dtfSizeOptions[key].price * order.dtf.sizes[key].quantity)})\n`;
+              }
+            }
+          });
+          if (order.dtfTotalPrice > 0) {
+            message += `Harga DTF: ${this.formatCurrency(order.dtfTotalPrice)}\n`;
+          }
+        }
+
         message += `Total: ${this.formatCurrency(order.totalPrice)}\n`;
       });
 
@@ -962,29 +1222,28 @@ export default {
 
 .category-icon,
 .type-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(102, 126, 234, 0.1);
+  width: 64px;
+  height: 64px;
+  background: rgba(102, 126, 234, 0.08);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .category-card.selected .category-icon,
 .type-card.selected .type-icon {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.category-icon svg,
-.type-icon svg {
-  color: #667eea;
-}
-
-.category-card.selected .category-icon svg,
-.type-card.selected .type-icon svg {
-  color: #fff;
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
 .category-info,
@@ -1168,6 +1427,120 @@ export default {
 
 .qty-input[type=number] {
   -moz-appearance: textfield;
+}
+
+.dtf-section {
+  margin-top: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-radius: 18px;
+  border: 2px solid #e5e7eb;
+}
+
+.dtf-subsection {
+  margin-bottom: 24px;
+}
+
+.dtf-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.dtf-label {
+  display: block;
+  color: #1f2937;
+  font-weight: 700;
+  margin-bottom: 14px;
+  font-size: 1.05rem;
+  letter-spacing: 0.3px;
+}
+
+.dtf-logo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.dtf-size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.dtf-card {
+  position: relative;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.dtf-card:hover:not(.disabled) {
+  border-color: #f59e0b;
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.15);
+  transform: translateY(-2px);
+}
+
+.dtf-card.selected {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-color: #f59e0b;
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
+  transform: translateY(-2px);
+}
+
+.dtf-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dtf-info {
+  flex: 1;
+}
+
+.dtf-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 6px 0;
+  transition: color 0.3s ease;
+}
+
+.dtf-card.selected .dtf-name {
+  color: #fff;
+}
+
+.dtf-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f59e0b;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.dtf-card.selected .dtf-price {
+  color: #fff;
+}
+
+.dtf-card.selected .check-icon-small svg {
+  color: #f59e0b;
+}
+
+.dtf-quantity-section {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.dtf-quantity-section label {
+  display: block;
+  color: #1f2937;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
 }
 
 .price-summary {
@@ -1561,28 +1934,6 @@ export default {
   gap: 12px;
 }
 
-.guide-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  animation: iconBounce 1s ease-in-out infinite;
-}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.guide-icon svg {
-  color: #fff;
-}
-
 .guide-title {
   color: #fff;
   font-size: 1.15rem;
@@ -1850,11 +2201,6 @@ export default {
   flex-wrap: wrap;
 }
 
-.guide-footer svg {
-  color: #f59e0b;
-  flex-shrink: 0;
-}
-
 .guide-footer span {
   color: #78350f;
   font-size: 0.9rem;
@@ -1865,12 +2211,8 @@ export default {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -1982,6 +2324,14 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   }
 
+  .dtf-section {
+    padding: 20px;
+  }
+
+  .dtf-size-grid {
+    grid-template-columns: 1fr;
+  }
+
   .action-section {
     grid-template-columns: 1fr;
     padding: 20px;
@@ -2056,16 +2406,6 @@ export default {
   .guide-header {
     padding: 16px 20px;
     gap: 10px;
-  }
-
-  .guide-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .guide-icon svg {
-    width: 20px;
-    height: 20px;
   }
 
   .guide-title {
@@ -2153,11 +2493,6 @@ export default {
     gap: 10px;
   }
 
-  .guide-footer svg {
-    width: 18px;
-    height: 18px;
-  }
-
   .guide-footer span {
     font-size: 0.8rem;
   }
@@ -2201,6 +2536,12 @@ export default {
     justify-content: center;
   }
 
+  .category-icon,
+  .type-icon {
+    width: 56px;
+    height: 56px;
+  }
+
   .size-grid {
     grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
   }
@@ -2214,6 +2555,14 @@ export default {
     font-size: 0.9rem;
   }
 
+  .dtf-section {
+    padding: 16px;
+  }
+
+  .dtf-size-grid {
+    grid-template-columns: 1fr;
+  }
+
   .screenshot-guide {
     border-radius: 14px;
   }
@@ -2221,16 +2570,6 @@ export default {
   .guide-header {
     padding: 12px 16px;
     gap: 8px;
-  }
-
-  .guide-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .guide-icon svg {
-    width: 18px;
-    height: 18px;
   }
 
   .guide-title {
@@ -2341,11 +2680,6 @@ export default {
     padding: 10px 14px;
     gap: 8px;
     border-radius: 8px;
-  }
-
-  .guide-footer svg {
-    width: 16px;
-    height: 16px;
   }
 
   .guide-footer span {

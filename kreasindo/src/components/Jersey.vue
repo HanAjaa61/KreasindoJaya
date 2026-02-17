@@ -33,9 +33,9 @@
           <div class="form-row">
             <div class="form-group">
               <label>Nama Lengkap <span class="required">*</span></label>
-              <input 
-                v-model="customer.name" 
-                type="text" 
+              <input
+                v-model="customer.name"
+                type="text"
                 placeholder="Masukkan nama lengkap Anda"
                 class="input-field"
               />
@@ -44,9 +44,9 @@
           <div class="form-row">
             <div class="form-group">
               <label>Nomor Telepon <span class="required">*</span></label>
-              <input 
-                v-model="customer.phone" 
-                type="tel" 
+              <input
+                v-model="customer.phone"
+                type="tel"
                 placeholder="08xxxxxxxxxx (maks 13 digit)"
                 class="input-field"
                 :class="{ 'error': phoneError }"
@@ -60,8 +60,8 @@
           <div class="form-row">
             <div class="form-group">
               <label>Alamat Lengkap <span class="required">*</span></label>
-              <textarea 
-                v-model="customer.address" 
+              <textarea
+                v-model="customer.address"
                 placeholder="Masukkan alamat lengkap untuk pengiriman"
                 class="input-field textarea"
                 rows="4"
@@ -93,9 +93,9 @@
             </svg>
             <h2 class="card-title">Pesanan #{{ index + 1 }}</h2>
           </div>
-          <button 
-            v-if="orders.length > 1" 
-            @click="removeOrder(index)" 
+          <button
+            v-if="orders.length > 1"
+            @click="removeOrder(index)"
             class="remove-btn"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -106,21 +106,19 @@
         </div>
 
         <div class="card-body">
+
           <div class="form-group">
             <label class="main-label">Pilih Jenis Produksi <span class="required">*</span></label>
             <div class="production-grid">
-              <div 
-                v-for="(production, key) in productionOptions" 
+              <div
+                v-for="(production, key) in productionOptions"
                 :key="key"
                 class="production-card"
                 :class="{ 'selected': order.production === key }"
                 @click="selectProduction(index, key)"
               >
                 <div class="production-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path v-if="key === 'custom'" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                    <path v-else d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  </svg>
+                  <img :src="production.image" :alt="production.name" class="card-img" />
                 </div>
                 <div class="production-info">
                   <h4 class="production-name">{{ production.name }}</h4>
@@ -138,18 +136,15 @@
           <div class="form-group" v-if="order.production">
             <label class="main-label">Pilih Jenis Jersey <span class="required">*</span></label>
             <div class="category-grid">
-              <div 
-                v-for="(category, key) in categoryOptions" 
+              <div
+                v-for="(category, key) in categoryOptions"
                 :key="key"
                 class="category-card"
                 :class="{ 'selected': order.category === key }"
                 @click="selectCategory(index, key)"
               >
                 <div class="category-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                  </svg>
+                  <img :src="category.image" :alt="category.name" class="card-img" />
                 </div>
                 <div class="category-info">
                   <h4 class="category-name">{{ category.name }}</h4>
@@ -166,17 +161,15 @@
           <div class="form-group" v-if="order.category">
             <label class="main-label">Pilih Jenis Kerah <span class="required">*</span></label>
             <div class="collar-grid">
-              <div 
-                v-for="(collar, key) in collarOptions" 
+              <div
+                v-for="(collar, key) in collarOptions"
                 :key="key"
                 class="collar-card"
                 :class="{ 'selected': order.collar === key }"
                 @click="selectCollar(index, key)"
               >
                 <div class="collar-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"></path>
-                  </svg>
+                  <img :src="getCollarImage(key, order.category)" :alt="collar.name" class="card-img" />
                 </div>
                 <div class="collar-info">
                   <h4 class="collar-name">{{ collar.name }}</h4>
@@ -193,17 +186,15 @@
           <div class="form-group" v-if="order.collar">
             <label class="main-label">Pilih Tipe Jersey <span class="required">*</span></label>
             <div class="type-grid">
-              <div 
-                v-for="(type, key) in typeOptions" 
+              <div
+                v-for="(type, key) in typeOptions"
                 :key="key"
                 class="type-card"
                 :class="{ 'selected': order.type === key }"
                 @click="selectType(index, key)"
               >
                 <div class="type-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"></path>
-                  </svg>
+                  <img :src="getTypeImage(key, order.category, order.collar)" :alt="type.name" class="card-img" />
                 </div>
                 <div class="type-info">
                   <h4 class="type-name">{{ type.name }}</h4>
@@ -220,8 +211,8 @@
           <div class="form-group" v-if="order.type">
             <label class="main-label">Pilih Ukuran <span class="required">*</span></label>
             <div class="size-grid">
-              <div 
-                v-for="(sizeOption, key) in getSizeOptions(order.category, order.collar, order.type)" 
+              <div
+                v-for="(sizeOption, key) in getSizeOptions(order.category, order.collar, order.type)"
                 :key="key"
                 class="size-card"
                 :class="{ 'selected': order.size === key }"
@@ -239,30 +230,30 @@
               </div>
             </div>
             <div v-if="order.category" class="size-guide-section">
-  <h3 class="size-guide-title">
-    Panduan Ukuran {{ categoryOptions[order.category].name }}
-  </h3>
-  <div class="size-guide-image">
-    <img 
-      v-if="order.category === 'dewasa'" 
-      src="/ukuran/jerseydewasa.png" 
-      alt="Panduan Ukuran Dewasa"
-    />
-    <img 
-      v-else-if="order.category === 'anak'" 
-      src="/ukuran/jerseyanak.png" 
-      alt="Panduan Ukuran Anak-Anak"
-    />
-  </div>
-</div>
+              <h3 class="size-guide-title">
+                Panduan Ukuran {{ categoryOptions[order.category].name }}
+              </h3>
+              <div class="size-guide-image">
+                <img
+                  v-if="order.category === 'dewasa'"
+                  src="/ukuran/jerseydewasa.png"
+                  alt="Panduan Ukuran Dewasa"
+                />
+                <img
+                  v-else-if="order.category === 'anak'"
+                  src="/ukuran/jerseyanak.png"
+                  alt="Panduan Ukuran Anak-Anak"
+                />
+              </div>
+            </div>
           </div>
 
           <div class="form-group" v-if="order.size">
             <label>Kuantitas <span class="required">*</span></label>
             <div class="quantity-control">
-              <button 
-                type="button" 
-                class="qty-btn" 
+              <button
+                type="button"
+                class="qty-btn"
                 @click="decreaseQty(index)"
                 :disabled="order.quantity <= getMinQuantity(order.production)"
               >
@@ -270,16 +261,16 @@
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </button>
-              <input 
-                v-model.number="order.quantity" 
-                type="number" 
+              <input
+                v-model.number="order.quantity"
+                type="number"
                 :min="getMinQuantity(order.production)"
                 class="qty-input"
                 @input="calculatePrice(index)"
               />
-              <button 
-                type="button" 
-                class="qty-btn" 
+              <button
+                type="button"
+                class="qty-btn"
                 @click="increaseQty(index)"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -294,12 +285,12 @@
 
           <div class="form-group" v-if="order.size && order.production === 'custom'">
             <label class="main-label">Pilih Ukuran Desain DTF <span class="required">*</span></label>
-            
+
             <div class="dtf-section">
               <div class="dtf-subsection">
                 <label class="dtf-label">Logo</label>
                 <div class="dtf-logo-grid">
-                  <div 
+                  <div
                     class="dtf-card"
                     :class="{ 'selected': order.dtf.logo.selected }"
                     @click="toggleDtfLogo(index)"
@@ -319,9 +310,9 @@
                 <div v-if="order.dtf.logo.selected" class="dtf-quantity-section">
                   <label>Kuantitas Logo</label>
                   <div class="quantity-control">
-                    <button 
-                      type="button" 
-                      class="qty-btn" 
+                    <button
+                      type="button"
+                      class="qty-btn"
                       @click="decreaseDtfLogoQty(index)"
                       :disabled="order.dtf.logo.quantity <= 1"
                     >
@@ -329,16 +320,16 @@
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                       </svg>
                     </button>
-                    <input 
-                      v-model.number="order.dtf.logo.quantity" 
-                      type="number" 
+                    <input
+                      v-model.number="order.dtf.logo.quantity"
+                      type="number"
                       min="1"
                       class="qty-input"
                       @input="calculatePrice(index)"
                     />
-                    <button 
-                      type="button" 
-                      class="qty-btn" 
+                    <button
+                      type="button"
+                      class="qty-btn"
                       @click="increaseDtfLogoQty(index)"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -353,8 +344,8 @@
               <div class="dtf-subsection">
                 <label class="dtf-label">Ukuran A5 - A2</label>
                 <div class="dtf-size-grid">
-                  <div 
-                    v-for="(size, key) in dtfSizeOptions" 
+                  <div
+                    v-for="(size, key) in dtfSizeOptions"
                     :key="key"
                     class="dtf-card"
                     :class="{ 'selected': order.dtf.sizes[key].selected, 'disabled': order.dtf.polos && key !== 'polos' }"
@@ -376,9 +367,9 @@
                   <div v-if="size.selected && key !== 'polos'" class="dtf-quantity-section">
                     <label>Kuantitas {{ dtfSizeOptions[key].name }}</label>
                     <div class="quantity-control">
-                      <button 
-                        type="button" 
-                        class="qty-btn" 
+                      <button
+                        type="button"
+                        class="qty-btn"
                         @click="decreaseDtfSizeQty(index, key)"
                         :disabled="size.quantity <= 1"
                       >
@@ -386,16 +377,16 @@
                           <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
                       </button>
-                      <input 
-                        v-model.number="size.quantity" 
-                        type="number" 
+                      <input
+                        v-model.number="size.quantity"
+                        type="number"
                         min="1"
                         class="qty-input"
                         @input="calculatePrice(index)"
                       />
-                      <button 
-                        type="button" 
-                        class="qty-btn" 
+                      <button
+                        type="button"
+                        class="qty-btn"
                         @click="increaseDtfSizeQty(index, key)"
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -409,90 +400,92 @@
               </div>
             </div>
           </div>
+
           <div class="screenshot-guide" v-if="order.size">
-  <div class="guide-header">
-    <h4 class="guide-title">Catatan Penting - Wajib Screenshot!</h4>
-  </div>
-  
-  <div class="guide-content">
-    <p class="guide-warning">
-      <strong>WAJIB screenshot bagian detail harga seperti contoh gambar di bawah ini !</strong>
-      Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>. 
-      Ini penting sebagai bukti lampiran pemesanan dan penghindaran manipulasi harga.
-    </p>
+            <div class="guide-header">
+              <h4 class="guide-title">Catatan Penting - Wajib Screenshot!</h4>
+            </div>
 
-    <div class="guide-example">
-      <p class="example-label">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-          <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-        Contoh Screenshot yang Benar:
-      </p>
-      <div class="example-image-wrapper">
-        <div class="example-badge">SCREENSHOT INI!</div>
-        <div class="example-image">
-          <img src="/buktipesan.png" alt="Contoh Screenshot Detail Harga" />
-        </div>
-        <div class="example-caption">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-          </svg>
-          Screenshot bagian ringkasan harga seperti ini
-        </div>
-      </div>
-    </div>
+            <div class="guide-content">
+              <p class="guide-warning">
+                <strong>WAJIB screenshot bagian detail harga seperti contoh gambar di bawah ini !</strong>
+                Foto yang tidak sesuai atau terlewat setelah konfirmasi WhatsApp <strong>berhak kami tolak</strong>.
+                Ini penting sebagai bukti lampiran pemesanan dan penghindaran manipulasi harga.
+              </p>
 
-    <div class="guide-steps">
-      <p class="steps-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="8" y1="6" x2="21" y2="6"></line>
-          <line x1="8" y1="12" x2="21" y2="12"></line>
-          <line x1="8" y1="18" x2="21" y2="18"></line>
-          <line x1="3" y1="6" x2="3.01" y2="6"></line>
-          <line x1="3" y1="12" x2="3.01" y2="12"></line>
-          <line x1="3" y1="18" x2="3.01" y2="18"></line>
-        </svg>
-        Langkah-langkah:
-      </p>
-      <ol class="steps-list">
-        <li>
-          <span class="step-number">1</span>
-          <span class="step-text">Selesaikan pemilihan detail pesanan</span>
-        </li>
-        <li>
-          <span class="step-number">2</span>
-          <span class="step-text">Geser ke bawah hingga menemukan ringkasan harga seperti contoh gambar</span>
-        </li>
-        <li>
-          <span class="step-number">3</span>
-          <span class="step-text"><strong>Screenshot dan simpan gambar</strong></span>
-        </li>
-        <li>
-          <span class="step-number">4</span>
-          <span class="step-text">Klik tombol <strong>"Kirim ke WhatsApp"</strong> dan Anda akan diarahkan ke kontak kami</span>
-        </li>
-        <li class="highlight-step">
-          <span class="step-number">5</span>
-          <div class="step-text">
-            <strong>JANGAN langsung kirim pesannya!</strong> Lampirkan dahulu foto hasil screenshot:
-            <ul class="sub-steps">
-              <li>Pilih ikon <strong> 🧷 (pin / lampiran)</strong> di sebelah kanan kotak pesan WhatsApp</li>
-              <li>Pilih <strong>Galeri</strong></li>
-              <li>Pilih foto hasil screenshot tadi di website CV. Kreasindo Jaya. (jika anda memiliki lebih dari 1 pesanan, maka foto semua bagian ringkasan harga sesuai contoh gambar diatas, kemudian pilih semua gambar sekaligus.)</li>
-              <li>Kemudian <strong>baru klik kirim pesan</strong></li>
-            </ul>
+              <div class="guide-example">
+                <p class="example-label">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  Contoh Screenshot yang Benar:
+                </p>
+                <div class="example-image-wrapper">
+                  <div class="example-badge">SCREENSHOT INI!</div>
+                  <div class="example-image">
+                    <img src="/buktipesan.png" alt="Contoh Screenshot Detail Harga" />
+                  </div>
+                  <div class="example-caption">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Screenshot bagian ringkasan harga seperti ini
+                  </div>
+                </div>
+              </div>
+
+              <div class="guide-steps">
+                <p class="steps-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                  </svg>
+                  Langkah-langkah:
+                </p>
+                <ol class="steps-list">
+                  <li>
+                    <span class="step-number">1</span>
+                    <span class="step-text">Selesaikan pemilihan detail pesanan</span>
+                  </li>
+                  <li>
+                    <span class="step-number">2</span>
+                    <span class="step-text">Geser ke bawah hingga menemukan ringkasan harga seperti contoh gambar</span>
+                  </li>
+                  <li>
+                    <span class="step-number">3</span>
+                    <span class="step-text"><strong>Screenshot dan simpan gambar</strong></span>
+                  </li>
+                  <li>
+                    <span class="step-number">4</span>
+                    <span class="step-text">Klik tombol <strong>"Kirim ke WhatsApp"</strong> dan Anda akan diarahkan ke kontak kami</span>
+                  </li>
+                  <li class="highlight-step">
+                    <span class="step-number">5</span>
+                    <div class="step-text">
+                      <strong>JANGAN langsung kirim pesannya!</strong> Lampirkan dahulu foto hasil screenshot:
+                      <ul class="sub-steps">
+                        <li>Pilih ikon <strong> 🧷 (pin / lampiran)</strong> di sebelah kanan kotak pesan WhatsApp</li>
+                        <li>Pilih <strong>Galeri</strong></li>
+                        <li>Pilih foto hasil screenshot tadi di website CV. Kreasindo Jaya. (jika anda memiliki lebih dari 1 pesanan, maka foto semua bagian ringkasan harga sesuai contoh gambar diatas, kemudian pilih semua gambar sekaligus.)</li>
+                        <li>Kemudian <strong>baru klik kirim pesan</strong></li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="guide-footer">
+                <span>Catatan: Pesanan tanpa lampiran screenshot yang valid dapat ditolak atau dengan kesepakatan bersama !</span>
+              </div>
+            </div>
           </div>
-        </li>
-      </ol>
-    </div>
 
-    <div class="guide-footer">
-      <span>Catatan: Pesanan tanpa lampiran screenshot yang valid dapat ditolak atau dengan kesepakatan bersama !</span>
-    </div>
-  </div>
-</div>
           <div class="price-summary" v-if="order.size">
             <div class="price-row">
               <span class="price-label">Harga Jersey:</span>
@@ -632,38 +625,74 @@ export default {
       productionOptions: {
         custom: {
           name: 'Jersey Custom',
-          desc: 'Minimal 12 pcs (1 lusin)'
+          desc: 'Minimal 12 pcs (1 lusin)',
+          image: '/icons/customjersey.png'
         },
         readystock: {
           name: 'Jersey Ready Stock',
-          desc: 'Mulai dari 1 pcs'
+          desc: 'Mulai dari 1 pcs',
+          image: '/icons/readystock.png'
         }
       },
       categoryOptions: {
         dewasa: {
-          name: 'Dewasa'
+          name: 'Dewasa',
+          image: '/icons/jerseydewasa.png'
         },
         anak: {
-          name: 'Anak-Anak'
+          name: 'Anak-Anak',
+          image: '/icons/jerseyanak.png'
         }
       },
       collarOptions: {
-        oneck: {
-          name: 'O-Neck'
+        oneck: { name: 'O-Neck' },
+        vneck: { name: 'V-Neck' },
+        berkerah: { name: 'Kerah Lipat' }
+      },
+      collarImages: {
+        dewasa: {
+          oneck: '/icons/oneck.png',
+          vneck: '/icons/vneck.png',
+          berkerah: '/icons/lipat.png'
         },
-        vneck: {
-          name: 'V-Neck'
-        },
-        berkerah: {
-          name: 'Berkerah'
+        anak: {
+          oneck: '/icons/oneck.png',
+          vneck: '/icons/vneck.png',
+          berkerah: '/icons/lipat.png'
         }
       },
       typeOptions: {
-        pendek: {
-          name: 'Lengan Pendek'
+        pendek: { name: 'Lengan Pendek' },
+        panjang: { name: 'Lengan Panjang' }
+      },
+      typeImages: {
+        dewasa: {
+          oneck: {
+            pendek: '/icons/jerseydewasa.png',
+            panjang: '/icons/dewasajerseypanjang.png'
+          },
+          vneck: {
+            pendek: '/icons/jerseydewasa.png',
+            panjang: '/icons/dewasajerseypanjang.png'
+          },
+          berkerah: {
+            pendek: '/icons/jerseydewasa.png',
+            panjang: '/icons/dewasajerseypanjang.png'
+          }
         },
-        panjang: {
-          name: 'Lengan Panjang'
+        anak: {
+          oneck: {
+            pendek: '/icons/jerseyanak.png',
+            panjang: '/icons/jerseyanakpanjang.png'
+          },
+          vneck: {
+            pendek: '/icons/jerseyanak.png',
+            panjang: '/icons/jerseyanakpanjang.png'
+          },
+          berkerah: {
+            pendek: '/icons/jerseyanak.png',
+            panjang: '/icons/jerseyanakpanjang.png'
+          }
         }
       },
       dtfSizeOptions: {
@@ -813,17 +842,23 @@ export default {
       const randomNum = Math.floor(Math.random() * 900) + 100;
       this.orderCode = `JeR${randomNum}01`;
     },
+    getCollarImage(collarKey, category) {
+      if (!category) return this.collarImages.dewasa[collarKey];
+      return this.collarImages[category][collarKey];
+    },
+    getTypeImage(typeKey, category, collar) {
+      if (!category || !collar) return this.typeImages.dewasa.oneck[typeKey];
+      return this.typeImages[category][collar][typeKey];
+    },
     saveCustomerData() {
       if (!this.customer.name || !this.customer.phone || !this.customer.address) {
         this.showError('Data Tidak Lengkap', 'Mohon lengkapi semua data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       this.customerFilled = true;
       this.addOrder();
       this.$nextTick(() => {
@@ -857,7 +892,7 @@ export default {
       }
     },
     getMinQuantity(production) {
-      return production === 'custom' ? 1 : 1;
+      return 1;
     },
     selectProduction(index, key) {
       this.orders[index].production = key;
@@ -865,7 +900,7 @@ export default {
       this.orders[index].collar = '';
       this.orders[index].type = '';
       this.orders[index].size = '';
-      this.orders[index].quantity = this.getMinQuantity(key);
+      this.orders[index].quantity = 1;
       this.orders[index].unitPrice = 0;
       this.orders[index].totalPrice = 0;
       this.resetDtf(index);
@@ -901,10 +936,7 @@ export default {
     },
     resetDtf(index) {
       this.orders[index].dtf = {
-        logo: {
-          selected: false,
-          quantity: 1
-        },
+        logo: { selected: false, quantity: 1 },
         sizes: {
           a5_10x30: { selected: false, quantity: 1 },
           a5_10x21: { selected: false, quantity: 1 },
@@ -930,7 +962,6 @@ export default {
         const newValue = !this.orders[index].dtf.sizes.polos.selected;
         this.orders[index].dtf.sizes.polos.selected = newValue;
         this.orders[index].dtf.polos = newValue;
-        
         if (newValue) {
           Object.keys(this.orders[index].dtf.sizes).forEach(k => {
             if (k !== 'polos') {
@@ -982,10 +1013,7 @@ export default {
         unitPrice: 0,
         totalPrice: 0,
         dtf: {
-          logo: {
-            selected: false,
-            quantity: 1
-          },
+          logo: { selected: false, quantity: 1 },
           sizes: {
             a5_10x30: { selected: false, quantity: 1 },
             a5_10x21: { selected: false, quantity: 1 },
@@ -1017,38 +1045,30 @@ export default {
     calculatePrice(index) {
       const order = this.orders[index];
       const minQty = this.getMinQuantity(order.production);
-      
       if (order.quantity) {
-        if (order.quantity < minQty) {
-          order.quantity = minQty;
-        }
+        if (order.quantity < minQty) order.quantity = minQty;
       } else {
         order.quantity = minQty;
       }
-      
       if (!order.production || !order.category || !order.collar || !order.type || !order.size) {
         order.unitPrice = 0;
         order.totalPrice = 0;
         order.dtfTotalPrice = 0;
         return;
       }
-
       const sizePrice = this.sizeOptions[order.category][order.collar][order.type][order.size].price;
       order.unitPrice = sizePrice;
-      
       let dtfTotal = 0;
       if (order.production === 'custom') {
         if (order.dtf.logo.selected) {
           dtfTotal += 10000 * order.dtf.logo.quantity;
         }
-        
         Object.keys(order.dtf.sizes).forEach(key => {
           if (order.dtf.sizes[key].selected && key !== 'polos') {
             dtfTotal += this.dtfSizeOptions[key].price * order.dtf.sizes[key].quantity;
           }
         });
       }
-      
       order.dtfTotalPrice = dtfTotal;
       order.totalPrice = (order.quantity * sizePrice) + dtfTotal;
     },
@@ -1084,30 +1104,25 @@ export default {
         this.showError('Data Pelanggan Tidak Lengkap', 'Mohon lengkapi data pelanggan terlebih dahulu!');
         return;
       }
-
       if (this.phoneError) {
         this.showError('Nomor Telepon Salah', 'Mohon perbaiki nomor telepon Anda!');
         return;
       }
-
       for (let i = 0; i < this.orders.length; i++) {
         const order = this.orders[i];
         if (!order.production || !order.category || !order.collar || !order.type || !order.size || !order.quantity) {
           this.showError('Data Pesanan Tidak Lengkap', `Mohon lengkapi data pesanan #${i + 1}! Pastikan semua pilihan sudah diisi!`);
           return;
         }
-
         if (order.production === 'custom') {
-          const hasDtfSelection = order.dtf.logo.selected || 
+          const hasDtfSelection = order.dtf.logo.selected ||
             Object.keys(order.dtf.sizes).some(key => order.dtf.sizes[key].selected);
-          
           if (!hasDtfSelection) {
             this.showError('DTF Belum Dipilih', `Pesanan #${i + 1} adalah Jersey Custom. Mohon pilih minimal satu opsi DTF (Logo atau ukuran A5-A2)!`);
             return;
           }
         }
       }
-
       if (this.totalCustomQuantity > 0 && this.totalCustomQuantity < 12) {
         this.showError('Kuantitas Custom Tidak Mencukupi', `Total kuantitas Jersey Custom minimal 12 pcs (1 lusin). Saat ini total kuantitas Jersey Custom Anda adalah ${this.totalCustomQuantity} pcs. Mohon tambah ${12 - this.totalCustomQuantity} pcs lagi atau ubah jenis produksi menjadi Ready Stock.`);
         return;
@@ -1134,11 +1149,9 @@ export default {
 
         if (order.production === 'custom' && order.dtfTotalPrice > 0) {
           message += `\n*Detail DTF:*\n`;
-          
           if (order.dtf.logo.selected) {
             message += `- Logo 10 x 10 cm: ${order.dtf.logo.quantity} pcs (${this.formatCurrency(10000 * order.dtf.logo.quantity)})\n`;
           }
-          
           Object.keys(order.dtf.sizes).forEach(key => {
             if (order.dtf.sizes[key].selected) {
               if (key === 'polos') {
@@ -1148,7 +1161,6 @@ export default {
               }
             }
           });
-          
           message += `Harga DTF: ${this.formatCurrency(order.dtfTotalPrice)}\n`;
         }
 
@@ -1440,35 +1452,30 @@ export default {
 .category-icon,
 .collar-icon,
 .type-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(102, 126, 234, 0.1);
+  width: 64px;
+  height: 64px;
+  background: rgba(102, 126, 234, 0.08);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .production-card.selected .production-icon,
 .category-card.selected .category-icon,
 .collar-card.selected .collar-icon,
 .type-card.selected .type-icon {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.production-icon svg,
-.category-icon svg,
-.collar-icon svg,
-.type-icon svg {
-  color: #667eea;
-}
-
-.production-card.selected .production-icon svg,
-.category-card.selected .category-icon svg,
-.collar-card.selected .collar-icon svg,
-.type-card.selected .type-icon svg {
-  color: #fff;
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
 .production-info,
@@ -2165,10 +2172,6 @@ export default {
   margin: 0 0 16px 0;
 }
 
-.size-guide-title svg {
-  color: #0284c7;
-}
-
 .size-guide-image {
   background: #fff;
   border-radius: 12px;
@@ -2194,12 +2197,8 @@ export default {
 }
 
 @keyframes pulseWarning {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
-  }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 68, 68, 0); }
 }
 
 .guide-header {
@@ -2208,28 +2207,6 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.guide-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  animation: iconBounce 1s ease-in-out infinite;
-}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.guide-icon svg {
-  color: #fff;
 }
 
 .guide-title {
@@ -2378,7 +2355,6 @@ export default {
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: step-counter;
 }
 
 .steps-list > li {
@@ -2458,7 +2434,6 @@ export default {
   margin: 12px 0 0 0;
   padding-left: 20px;
   list-style-type: none;
-  counter-reset: sub-counter;
 }
 
 .sub-steps li {
@@ -2499,11 +2474,6 @@ export default {
   flex-wrap: wrap;
 }
 
-.guide-footer svg {
-  color: #f59e0b;
-  flex-shrink: 0;
-}
-
 .guide-footer span {
   color: #78350f;
   font-size: 0.9rem;
@@ -2514,56 +2484,28 @@ export default {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes iconPulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 15px rgba(251, 191, 36, 0);
-  }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }
 }
 
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes shake {
@@ -2579,461 +2521,97 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .jersey-order {
-    padding: 30px 15px 140px;
-  }
-
-  .back-btn {
-    padding: 8px 16px;
-    font-size: 0.85rem;
-  }
-
-  .back-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .product-jersey {
-    height: 200px;
-    margin-bottom: 30px;
-  }
-
-  .jersey-overlay p {
-    font-size: 1rem;
-  }
-
-  .card-header {
-    padding: 20px;
-  }
-
-  .card-title {
-    font-size: 1.2rem;
-  }
-
-  .card-body {
-    padding: 20px;
-  }
-
-  .production-grid,
-  .category-grid,
-  .collar-grid,
-  .type-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .size-grid {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  }
-
-  .dtf-size-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .action-section {
-    grid-template-columns: 1fr;
-    padding: 20px;
-    gap: 10px;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 12px 20px;
-    font-size: 0.9rem;
-  }
-
-  .grand-total-section {
-    padding: 24px 20px;
-  }
-
-  .total-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .total-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .total-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .total-amount {
-    font-size: 1.8rem;
-  }
-
-  .dialog-box {
-    padding: 28px 20px;
-  }
-
-  .dialog-icon {
-    width: 60px;
-    height: 60px;
-  }
-
-  .dialog-icon svg {
-    width: 48px;
-    height: 48px;
-  }
-
-  .dialog-title {
-    font-size: 1.3rem;
-  }
-
-  .dialog-message {
-    font-size: 0.9rem;
-  }
-
-  .dialog-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .dialog-btn {
-    padding: 12px 20px;
-    font-size: 0.9rem;
-  }
-
-  .dtf-section {
-    padding: 20px;
-  }
-
-   .size-guide-section {
-    padding: 16px;
-  }
-
-  .size-guide-title {
-    font-size: 1rem;
-  }
-
-  .size-guide-image {
-    padding: 12px;
-  }
-
-  .screenshot-guide {
-    margin-top: 20px;
-    border-width: 2px;
-  }
-
-  .guide-header {
-    padding: 16px 20px;
-    gap: 10px;
-  }
-
-  .guide-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .guide-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .guide-title {
-    font-size: 1rem;
-    line-height: 1.4;
-  }
-
-  .guide-content {
-    padding: 20px;
-  }
-
-  .guide-warning {
-    font-size: 0.875rem;
-    padding: 14px;
-    line-height: 1.6;
-  }
-
-  .example-label {
-    font-size: 0.875rem;
-    gap: 6px;
-  }
-
-  .example-label svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .example-badge {
-    font-size: 0.7rem;
-    padding: 5px 12px;
-    top: -6px;
-    right: -6px;
-  }
-
-  .example-image {
-    padding: 12px;
-  }
-
-  .example-image img {
-    max-width: 220px;
-  }
-
-  .example-caption {
-    font-size: 0.8rem;
-    padding: 8px 14px;
-    gap: 6px;
-  }
-
-  .guide-steps {
-    padding: 16px;
-  }
-
-  .steps-title {
-    font-size: 0.95rem;
-  }
-
-  .steps-list > li {
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .step-number {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    font-size: 0.875rem;
-  }
-
-  .step-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  .sub-steps {
-    padding-left: 16px;
-  }
-
-  .sub-steps li {
-    font-size: 0.8rem;
-    padding-left: 20px;
-  }
-
-  .guide-footer {
-    padding: 12px 16px;
-    gap: 10px;
-  }
-
-  .guide-footer svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .guide-footer span {
-    font-size: 0.8rem;
-  }
+  .jersey-order { padding: 30px 15px 140px; }
+  .back-btn { padding: 8px 16px; font-size: 0.85rem; }
+  .back-btn svg { width: 16px; height: 16px; }
+  .title { font-size: 2rem; }
+  .subtitle { font-size: 1rem; }
+  .product-jersey { height: 200px; margin-bottom: 30px; }
+  .jersey-overlay p { font-size: 1rem; }
+  .card-header { padding: 20px; }
+  .card-title { font-size: 1.2rem; }
+  .card-body { padding: 20px; }
+  .production-grid, .category-grid, .collar-grid, .type-grid { grid-template-columns: 1fr; }
+  .size-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+  .dtf-size-grid { grid-template-columns: 1fr; }
+  .action-section { grid-template-columns: 1fr; padding: 20px; gap: 10px; }
+  .btn { width: 100%; padding: 12px 20px; font-size: 0.9rem; }
+  .grand-total-section { padding: 24px 20px; }
+  .total-content { flex-direction: column; text-align: center; }
+  .total-icon { width: 50px; height: 50px; }
+  .total-icon svg { width: 24px; height: 24px; }
+  .total-amount { font-size: 1.8rem; }
+  .dialog-box { padding: 28px 20px; }
+  .dialog-icon { width: 60px; height: 60px; }
+  .dialog-icon svg { width: 48px; height: 48px; }
+  .dialog-title { font-size: 1.3rem; }
+  .dialog-message { font-size: 0.9rem; }
+  .dialog-actions { grid-template-columns: 1fr; }
+  .dialog-btn { padding: 12px 20px; font-size: 0.9rem; }
+  .dtf-section { padding: 20px; }
+  .size-guide-section { padding: 16px; }
+  .size-guide-title { font-size: 1rem; }
+  .size-guide-image { padding: 12px; }
+  .screenshot-guide { margin-top: 20px; border-width: 2px; }
+  .guide-header { padding: 16px 20px; gap: 10px; }
+  .guide-title { font-size: 1rem; line-height: 1.4; }
+  .guide-content { padding: 20px; }
+  .guide-warning { font-size: 0.875rem; padding: 14px; line-height: 1.6; }
+  .example-label { font-size: 0.875rem; gap: 6px; }
+  .example-label svg { width: 18px; height: 18px; }
+  .example-badge { font-size: 0.7rem; padding: 5px 12px; top: -6px; right: -6px; }
+  .example-image { padding: 12px; }
+  .example-image img { max-width: 220px; }
+  .example-caption { font-size: 0.8rem; padding: 8px 14px; gap: 6px; }
+  .guide-steps { padding: 16px; }
+  .steps-title { font-size: 0.95rem; }
+  .steps-list > li { padding: 12px; gap: 12px; }
+  .step-number { width: 28px; height: 28px; min-width: 28px; font-size: 0.875rem; }
+  .step-text { font-size: 0.85rem; line-height: 1.6; }
+  .sub-steps { padding-left: 16px; }
+  .sub-steps li { font-size: 0.8rem; padding-left: 20px; }
+  .guide-footer { padding: 12px 16px; gap: 10px; }
+  .guide-footer span { font-size: 0.8rem; }
 }
 
 @media (max-width: 480px) {
-  .jersey-order {
-    padding: 20px 12px 160px;
-  }
-
-  .back-btn {
-    padding: 8px 14px;
-    font-size: 0.8rem;
-  }
-
-  .back-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .title {
-    font-size: 1.6rem;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-  }
-
-  .product-jersey {
-    height: 180px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .remove-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .size-grid {
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-  }
-
-  .total-amount {
-    font-size: 1.6rem;
-  }
-
-  .btn {
-    padding: 12px 20px;
-    font-size: 0.9rem;
-  }
-
-  .size-guide-section {
-    padding: 14px;
-  }
-
-  .size-guide-title {
-    font-size: 0.95rem;
-  }
-
-  .size-guide-image {
-    padding: 10px;
-  }
-
-  .screenshot-guide {
-    border-radius: 14px;
-  }
-
-  .guide-header {
-    padding: 12px 16px;
-    gap: 8px;
-  }
-
-  .guide-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .guide-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .guide-title {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-
-  .guide-content {
-    padding: 16px;
-  }
-
-  .guide-warning {
-    font-size: 0.8rem;
-    padding: 12px;
-    border-radius: 10px;
-  }
-
-  .example-label {
-    font-size: 0.8rem;
-    gap: 5px;
-  }
-
-  .example-label svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .example-badge {
-    font-size: 0.65rem;
-    padding: 4px 10px;
-    top: -5px;
-    right: -5px;
-    letter-spacing: 0.3px;
-  }
-
-  .example-image {
-    padding: 10px;
-  }
-
-  .example-image img {
-    max-width: 100%;
-  }
-
-  .example-caption {
-    font-size: 0.75rem;
-    padding: 8px 12px;
-    gap: 5px;
-  }
-
-  .example-caption svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .guide-steps {
-    padding: 14px;
-    border-radius: 10px;
-  }
-
-  .steps-title {
-    font-size: 0.875rem;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
-
-  .steps-title svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .steps-list > li {
-    padding: 10px;
-    gap: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-  }
-
-  .step-number {
-    width: 26px;
-    height: 26px;
-    min-width: 26px;
-    font-size: 0.8rem;
-  }
-
-  .step-text {
-    font-size: 0.8rem;
-    line-height: 1.6;
-    padding-top: 2px;
-  }
-
-  .highlight-step {
-    padding: 10px !important;
-  }
-
-  .sub-steps {
-    margin-top: 10px;
-    padding-left: 14px;
-  }
-
-  .sub-steps li {
-    font-size: 0.75rem;
-    padding-left: 18px;
-    margin-bottom: 6px;
-    line-height: 1.5;
-  }
-
-  .guide-footer {
-    padding: 10px 14px;
-    gap: 8px;
-    border-radius: 8px;
-  }
-
-  .guide-footer svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .guide-footer span {
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
+  .jersey-order { padding: 20px 12px 160px; }
+  .back-btn { padding: 8px 14px; font-size: 0.8rem; }
+  .back-btn svg { width: 14px; height: 14px; }
+  .title { font-size: 1.6rem; }
+  .subtitle { font-size: 0.9rem; }
+  .product-jersey { height: 180px; }
+  .card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .remove-btn { width: 100%; justify-content: center; }
+  .production-icon, .category-icon, .collar-icon, .type-icon { width: 56px; height: 56px; }
+  .size-grid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); }
+  .total-amount { font-size: 1.6rem; }
+  .btn { padding: 12px 20px; font-size: 0.9rem; }
+  .size-guide-section { padding: 14px; }
+  .size-guide-title { font-size: 0.95rem; }
+  .size-guide-image { padding: 10px; }
+  .screenshot-guide { border-radius: 14px; }
+  .guide-header { padding: 12px 16px; gap: 8px; }
+  .guide-title { font-size: 0.9rem; line-height: 1.4; }
+  .guide-content { padding: 16px; }
+  .guide-warning { font-size: 0.8rem; padding: 12px; border-radius: 10px; }
+  .example-label { font-size: 0.8rem; gap: 5px; }
+  .example-label svg { width: 16px; height: 16px; }
+  .example-badge { font-size: 0.65rem; padding: 4px 10px; top: -5px; right: -5px; }
+  .example-image { padding: 10px; }
+  .example-image img { max-width: 100%; }
+  .example-caption { font-size: 0.75rem; padding: 8px 12px; gap: 5px; }
+  .example-caption svg { width: 14px; height: 14px; }
+  .guide-steps { padding: 14px; border-radius: 10px; }
+  .steps-title { font-size: 0.875rem; gap: 6px; margin-bottom: 14px; }
+  .steps-title svg { width: 16px; height: 16px; }
+  .steps-list > li { padding: 10px; gap: 10px; margin-bottom: 10px; border-radius: 8px; }
+  .step-number { width: 26px; height: 26px; min-width: 26px; font-size: 0.8rem; }
+  .step-text { font-size: 0.8rem; line-height: 1.6; padding-top: 2px; }
+  .highlight-step { padding: 10px !important; }
+  .sub-steps { margin-top: 10px; padding-left: 14px; }
+  .sub-steps li { font-size: 0.75rem; padding-left: 18px; margin-bottom: 6px; line-height: 1.5; }
+  .guide-footer { padding: 10px 14px; gap: 8px; border-radius: 8px; }
+  .guide-footer span { font-size: 0.75rem; line-height: 1.4; }
 }
 </style>
