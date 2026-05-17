@@ -563,7 +563,7 @@ body {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   padding: 28px 35px;
   display: flex;
   justify-content: space-between;
@@ -725,7 +725,7 @@ body {
 }
 
 .material-card.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border-color: #667eea;
   box-shadow: 0 15px 35px rgba(102, 126, 234, 0.45);
   transform: translateY(-5px);
@@ -967,7 +967,7 @@ body {
 }
 
 .btn-add {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 8px 22px rgba(102, 126, 234, 0.35);
 }
@@ -1129,7 +1129,7 @@ body {
 
 .dialog-btn-ok {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.35);
 }

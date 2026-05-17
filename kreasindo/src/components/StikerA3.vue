@@ -742,7 +742,7 @@ export default {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   padding: 24px 30px;
   display: flex;
   justify-content: space-between;
@@ -887,7 +887,7 @@ export default {
 }
 
 .material-card.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border-color: #667eea;
   box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
   transform: translateY(-4px);
@@ -1066,7 +1066,7 @@ export default {
 }
 
 .price-summary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border-radius: 18px;
   padding: 24px;
   margin-top: 30px;
@@ -1212,7 +1212,7 @@ export default {
 }
 
 .btn-add {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:#2563eb;
   color: #fff;
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
@@ -1387,7 +1387,7 @@ export default {
 
 .dialog-btn-ok {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -1441,7 +1441,7 @@ export default {
 }
 
 .guide-header {
-  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+  background: #2563eb;
   padding: 18px 24px;
   display: flex;
   align-items: center;
@@ -1647,7 +1647,7 @@ export default {
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   border-radius: 50%;
   font-weight: 800;

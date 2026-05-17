@@ -796,7 +796,7 @@ body {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   padding: 28px 35px;
   display: flex;
   justify-content: space-between;
@@ -951,7 +951,7 @@ body {
 }
 
 .material-card.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border-color: #667eea;
   box-shadow: 0 15px 35px rgba(102, 126, 234, 0.45);
   transform: translateY(-5px);
@@ -1217,7 +1217,7 @@ body {
 }
 
 .price-summary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border-radius: 20px;
   padding: 28px 30px;
   margin-top: 35px;
@@ -1403,7 +1403,7 @@ body {
 }
 
 .btn-add {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 8px 22px rgba(102, 126, 234, 0.35);
 }
@@ -1552,7 +1552,7 @@ body {
 
 .dialog-btn-ok {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.35);
 }
@@ -1792,7 +1792,7 @@ body {
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   border-radius: 50%;
   font-weight: 800;

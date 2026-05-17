@@ -711,7 +711,7 @@ box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 overflow: hidden;
 }
 .card-header {
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: #2563eb;
 padding: 24px 30px;
 display: flex;
 justify-content: space-between;
@@ -832,7 +832,7 @@ box-shadow: 0 12px 24px rgba(102, 126, 234, 0.15);
 border-color: #667eea;
 }
 .material-card.selected {
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: #2563eb;
 border-color: #667eea;
 box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
 transform: translateY(-4px);
@@ -971,7 +971,7 @@ margin: 0;
 -moz-appearance: textfield;
 }
 .price-summary {
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: #2563eb;
 border-radius: 18px;
 padding: 24px;
 margin-top: 30px;
@@ -1108,7 +1108,7 @@ transform: scale(1.05);
 }
 
 .btn-add {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
@@ -1265,7 +1265,7 @@ box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
 }
 .dialog-btn-ok {
 grid-column: 1 / -1;
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: #2563eb;
 color: #fff;
 box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -1521,7 +1521,7 @@ color: #9ca3af;
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   color: #fff;
   border-radius: 50%;
   font-weight: 800;
